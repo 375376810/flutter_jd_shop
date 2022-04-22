@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutterjdshop/BasicConfig.dart';
+import 'package:flutterjdshop/ServiceInterface.dart';
 import 'package:flutterjdshop/services/ScreenAdaptor.dart';
 
+import '../../model/SwiperInfo.dart';
 import '../../services/MyImageWidget.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,25 +17,43 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return HomePageState();
   }
+
 }
 
 class HomePageState extends State {
+
+  List<SwiperItems> itemList = [];
+
+  @override
+  Future<void> initState() async {
+    super.initState();
+    //请求服务器轮播图数据
+    String path = BasicConfig.basicServerUrl+ServiceInterface.swiperInfo;
+    var result = await Dio().get(path);
+    var items = SwiperInfo.fromJson(result.data);
+    setState(() {
+      itemList = items.resultList;
+    });
+  }
+
   ///轮播图
+  //TODO:后期会使用服务器返回的json数据解析获得轮播图资源
   Widget swiperWidget() {
-    List<Map> imageList = [
+    /*List<Map> imageList = [
       {"url": BasicConfig.basicServerUrl + "images/flutter/slide01.jpg"},
       {"url": BasicConfig.basicServerUrl + "images/flutter/slide02.jpg"},
       {"url": BasicConfig.basicServerUrl + "images/flutter/slide03.jpg"}
-    ];
+    ];*/
+
     return AspectRatio(
       aspectRatio: 2 / 1,
       child: Swiper(
           itemBuilder: (BuildContext context, int index) {
-            return MyImageWidget(imageList[index]["url"]);
+            return MyImageWidget(itemList[index].url);
           },
           pagination: const SwiperPagination(),
           autoplay: true,
-          itemCount: imageList.length),
+          itemCount: itemList.length),
     );
   }
 
@@ -142,4 +163,6 @@ class HomePageState extends State {
       ],
     );
   }
+
+
 }
