@@ -1,35 +1,40 @@
 class SwiperInfo {
-  List<SwiperItems> resultList = <SwiperItems>[];
+  double nowtime = 0;
+  int code = 0;
+  List<SwiperItems>? swiperItems;
 
-  SwiperInfo({required this.resultList});
+  SwiperInfo({required this.nowtime, required this.code, this.swiperItems});
 
   SwiperInfo.fromJson(Map<String, dynamic> json) {
-    if (json['result'] != Null) {
-      resultList = <SwiperItems>[];
-      json['result'].forEach((items) {
-        resultList.add(SwiperItems.fromJson(items));
+    nowtime = json['nowtime'];
+    code = json['code'];
+    if (json['swiperItems'] != null) {
+      swiperItems = <SwiperItems>[];
+      json['swiperItems'].forEach((v) {
+        swiperItems!.add(SwiperItems.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = <String, dynamic>{};
-    if (resultList != null) {
-      data['result'] = resultList.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nowtime'] = nowtime;
+    data['code'] = code;
+    if (swiperItems != null) {
+      data['swiperItems'] = swiperItems!.map((v) => v.toJson()).toList();
     }
     return data;
   }
-
 }
 
 class SwiperItems {
-  String id = "";
+  int id = 0;
   String title = "";
   String status = "";
   String pic = "";
   String url = "";
 
-  SwiperItems(this.id, this.title, this.status, this.pic, this.url);
+  SwiperItems({required this.id, required this.title, required this.status, required this.pic, required this.url});
 
   SwiperItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,7 +45,7 @@ class SwiperItems {
   }
 
   Map<String, dynamic> toJson() {
-    Map<String,dynamic> data = <String,dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
     data['status'] = status;

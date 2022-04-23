@@ -17,44 +17,48 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return HomePageState();
   }
-
 }
 
 class HomePageState extends State {
-
   List<SwiperItems> itemList = [];
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+    getSwiperInfo();
+  }
+
+  getSwiperInfo() async {
     //请求服务器轮播图数据
-    String path = BasicConfig.basicServerUrl+ServiceInterface.swiperInfo;
-    var result = await Dio().get(path);
-    var items = SwiperInfo.fromJson(result.data);
+    String path = BasicConfig.basicServerUrl + ServiceInterface.swiperInfo;
+    var response = await Dio().get(path);
+    var items = SwiperInfo.fromJson(response.data);
     setState(() {
-      itemList = items.resultList;
+      itemList = items.swiperItems!;
     });
   }
 
   ///轮播图
   //TODO:后期会使用服务器返回的json数据解析获得轮播图资源
   Widget swiperWidget() {
-    /*List<Map> imageList = [
-      {"url": BasicConfig.basicServerUrl + "images/flutter/slide01.jpg"},
-      {"url": BasicConfig.basicServerUrl + "images/flutter/slide02.jpg"},
-      {"url": BasicConfig.basicServerUrl + "images/flutter/slide03.jpg"}
-    ];*/
-
-    return AspectRatio(
-      aspectRatio: 2 / 1,
-      child: Swiper(
-          itemBuilder: (BuildContext context, int index) {
-            return MyImageWidget(itemList[index].url);
-          },
-          pagination: const SwiperPagination(),
-          autoplay: true,
-          itemCount: itemList.length),
-    );
+    if(itemList.isNotEmpty) {
+      return AspectRatio(
+        aspectRatio: 2 / 1,
+        child: Swiper(
+            itemBuilder: (BuildContext context, int index) {
+              return MyImageWidget(BasicConfig.basicServerUrl+itemList[index].url.replaceAll("\\", "/"));
+            },
+            pagination: const SwiperPagination(),
+            autoplay: true,
+            itemCount: itemList.length),
+      );
+    } else {
+      return Container(
+        height: ScreenAdaptor.setHeight(300),
+        alignment: Alignment.center,
+        child: const Text("加载中..."),
+      );
+    }
   }
 
   ///标题组件
@@ -163,6 +167,4 @@ class HomePageState extends State {
       ],
     );
   }
-
-
 }
