@@ -13,7 +13,7 @@ class IndexPage extends StatefulWidget {
 }
 
 class IndexPageState extends State<IndexPage> {
-  int currentIndex = 0;
+  int currentIndex = 1;
   List pageList = [
     const HomePage(),
     const CategoryPage(),

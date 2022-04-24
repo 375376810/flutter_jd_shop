@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:flutterjdshop/BasicConfig.dart';
-import 'package:flutterjdshop/ServiceInterface.dart';
+import '../../config/BasicConfig.dart';
 import 'package:flutterjdshop/services/ScreenAdaptor.dart';
+import 'dart:convert';
 
+import '../../config/ServerInterface.dart';
 import '../../model/SwiperInfo.dart';
 import '../../services/MyImageWidget.dart';
 
@@ -46,7 +47,7 @@ class HomePageState extends State {
         aspectRatio: 2 / 1,
         child: Swiper(
             itemBuilder: (BuildContext context, int index) {
-              return MyImageWidget(BasicConfig.basicServerUrl+itemList[index].url.replaceAll("\\", "/"));
+              return MyImageWidget(BasicConfig.basicServerUrl+itemList[index].url!.replaceAll("\\", "/"));
             },
             pagination: const SwiperPagination(),
             autoplay: true,
@@ -124,7 +125,7 @@ class HomePageState extends State {
             children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: MyImageWidget(BasicConfig.basicServerUrl + "images/flutter/list${index}.jpg"),
+                child: MyImageWidget(BasicConfig.basicServerUrl + "images/flutter/list$index.jpg"),
               ),
               Container(
                   margin: EdgeInsets.all(ScreenAdaptor.setWidth(8)),
