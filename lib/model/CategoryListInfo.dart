@@ -1,15 +1,15 @@
 ///分类页面左侧列表数据
 class CategoryListInfo {
-  int? nowtime;
   int? code;
+  int? time;
   List<CategoryList>? categoryList;
 
   CategoryListInfo.fromJson(Map<String, dynamic> json) {
-    nowtime = json['nowtime'];
     code = json['code'];
-    if (json['list'] != null) {
+    time = json['time'];
+    if (json['categoryList'] != null) {
       categoryList = <CategoryList>[];
-      json['list'].forEach((v) {
+      json['categoryList'].forEach((v) {
         categoryList?.add(CategoryList.fromJson(v));
       });
     }
@@ -17,10 +17,10 @@ class CategoryListInfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
-    json['nowtime'] = nowtime;
+    json['time'] = time;
     json['code'] = code;
     if (categoryList != null) {
-      json['list'] = categoryList?.map((v) => v.toJson()).toList();
+      json['categoryList'] = categoryList?.map((v) => v.toJson()).toList();
     }
     return json;
   }

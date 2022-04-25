@@ -93,7 +93,7 @@ class HomePageState extends State {
                   margin: EdgeInsets.all(ScreenAdaptor.setWidth(5)),
                   width: ScreenAdaptor.setWidth(200),
                   height: ScreenAdaptor.setHeight(200),
-                  child: MyImageWidget(BasicConfig.basicServerUrl + "images/flutter/hot${index + 1}.jpg"),
+                  child: MyImageWidget(BasicConfig.basicServerUrl + "images/hot/hot${index + 1}.jpg"),
                 ),
                 Container(
                   margin: EdgeInsets.all(ScreenAdaptor.setWidth(5)),
@@ -125,7 +125,7 @@ class HomePageState extends State {
             children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: MyImageWidget(BasicConfig.basicServerUrl + "images/flutter/list$index.jpg"),
+                child: MyImageWidget(BasicConfig.basicServerUrl + "images/list/list$index.jpg"),
               ),
               Container(
                   margin: EdgeInsets.all(ScreenAdaptor.setWidth(8)),
