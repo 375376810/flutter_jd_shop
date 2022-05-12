@@ -30,18 +30,18 @@ class CategoryItems {
   int? id;
   int? categoryListId;
   String? title;
-  String? status;
+  double? price;
   String? desc;
   String? url;
   String? sort;
 
-  CategoryItems({this.id,this.categoryListId, this.title, this.status, this.desc,this.url, this.sort});
+  CategoryItems({this.id,this.categoryListId, this.title, this.price, this.desc,this.url, this.sort});
 
   CategoryItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryListId = json['categoryListId'];
     title = json['title'];
-    status = json['status'];
+    price = json['price'];
     desc = json['desc'];
     url = json['url'];
     sort = json['sort'];
@@ -52,7 +52,7 @@ class CategoryItems {
     json['id'] = id;
     json['categoryListId'] = categoryListId;
     json['title'] = title;
-    json['status'] = status;
+    json['price'] = price;
     json['desc'] = desc;
     json['url'] = url;
     json['sort'] = sort;

@@ -15,16 +15,11 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State {
   @override
   Widget build(BuildContext context) {
+    //更改主色料为PANTONE 17-3938
     return MaterialApp(
-      theme: ThemeData(
-        //更改主色料为PANTONE 17-3938
-          colorScheme: Theme
-              .of(context)
-              .colorScheme
-              .copyWith(primary: const Color.fromRGBO(102, 103, 171, 1))),
+      theme: ThemeData(colorScheme: Theme.of(context).colorScheme.copyWith(primary: const Color.fromRGBO(102, 103, 171, 1))),
       initialRoute: '/',
       onGenerateRoute: routeGenerator,
     );
   }
-
 }

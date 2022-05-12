@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:flutterjdshop/services/ScreenAdaptor.dart';
+import 'package:flutterjdshop/model/hot_product_items_info.dart';
 
-import '../../config/BasicConfig.dart';
-import '../../config/ServerInterface.dart';
-import '../../model/SwiperInfo.dart';
-import '../../services/MyImageWidget.dart';
+import '../../config/basic_config.dart';
+import '../../config/server_interface.dart';
+import '../../model/hot_product_items_count_info.dart';
+import '../../model/swiper_info.dart';
+import '../../services/my_image_widget.dart';
+import '../../services/screen_adaptor.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,13 +21,41 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State {
-  List<SwiperItems> itemList = [];
+class HomePageState extends State with AutomaticKeepAliveClientMixin {
+  List<SwiperItems> swiperItemList = [];
+  int hotProductItemsCount = 0;
+  List<HotProductItemsByPage> hotProductItemsByPage = [];
+  //分页从第0页开始
+  int pageNumber = 0;
+  int pageSize = 30;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
     getSwiperInfo();
+    getHotProductItemsCount();
+    getHotProductItemsByPage();
+  }
+
+  getHotProductItemsCount() async {
+    String path = BasicConfig.basicServerUrl + ServiceInterface.getHotProductItemsCount;
+    var response = await Dio().get(path);
+    var info = HotProductItemsCountInfo.fromJson(response.data);
+    setState(() {
+      hotProductItemsCount = info.hotProductItemsCount!;
+    });
+  }
+
+  getHotProductItemsByPage() async {
+    String path = BasicConfig.basicServerUrl + ServiceInterface.getHotProductItemsByPage;
+    var response = await Dio().get(path, queryParameters: {"page_number": pageNumber, "page_size": pageSize});
+    var info = HotProductItemsInfo.fromJson(response.data);
+    setState(() {
+      hotProductItemsByPage = info.hotProductItemsByPage!;
+    });
   }
 
   getSwiperInfo() async {
@@ -34,22 +64,22 @@ class HomePageState extends State {
     var response = await Dio().get(path);
     var items = SwiperInfo.fromJson(response.data);
     setState(() {
-      itemList = items.swiperItems!;
+      swiperItemList = items.swiperItems!;
     });
   }
 
   ///轮播图
   Widget swiperWidget() {
-    if(itemList.isNotEmpty) {
+    if (swiperItemList.isNotEmpty) {
       return AspectRatio(
         aspectRatio: 2 / 1,
         child: Swiper(
             itemBuilder: (BuildContext context, int index) {
-              return MyImageWidget(BasicConfig.basicServerUrl+itemList[index].url!);
+              return MyImageWidget(BasicConfig.basicServerUrl + swiperItemList[index].url!);
             },
             pagination: const SwiperPagination(),
             autoplay: true,
-            itemCount: itemList.length),
+            itemCount: swiperItemList.length),
       );
     } else {
       return Container(
@@ -108,12 +138,10 @@ class HomePageState extends State {
   }
 
   ///热门推荐商品组件
-  Widget hotRecommendWidget() {
-    var random = Random(1000);
+  Widget hotProductWidget() {
     var screenWith = ScreenAdaptor.getScreenWidth();
     List<Widget> hotList = [];
-    for (int index = 1; index <= 17; index++) {
-      double price = random.nextDouble() * 1000;
+    for (int index = 0; index < hotProductItemsByPage.length; index++) {
       Widget w = Container(
           width: (screenWith / 2),
           padding: const EdgeInsets.all(10),
@@ -123,23 +151,23 @@ class HomePageState extends State {
             children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: MyImageWidget(BasicConfig.basicServerUrl + "images/list/list$index.jpg"),
+                child: MyImageWidget(BasicConfig.basicServerUrl + hotProductItemsByPage[index].url!),
               ),
               Container(
                   margin: EdgeInsets.all(ScreenAdaptor.setWidth(8)),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "热门商品${index}",
+                    "${hotProductItemsByPage[index].title}",
                     style: const TextStyle(color: Colors.black38),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   )),
               Stack(
                 children: [
-                  Align(alignment: Alignment.centerLeft, child: Text("￥${price.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
+                  Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text("￥${(price * 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
+                    child: Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
                   )
                 ],
               )
@@ -162,7 +190,7 @@ class HomePageState extends State {
         guessYouLikeWidget(),
         SizedBox(height: ScreenAdaptor.setHeight(10)),
         titleWidget("热门推荐"),
-        hotRecommendWidget()
+        hotProductWidget()
       ],
     );
   }

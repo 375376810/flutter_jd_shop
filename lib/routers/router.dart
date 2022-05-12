@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterjdshop/pages/tabs/IndexPage.dart';
-import 'package:flutterjdshop/pages/SearchPage.dart';
+
+import '../pages/search_page.dart';
+import '../pages/tabs/index_page.dart';
+
 
 //配置路由
 final Map<String, Function> routes = {

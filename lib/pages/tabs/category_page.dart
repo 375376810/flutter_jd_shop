@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterjdshop/model/CategoryItemsInfo.dart';
-import 'package:flutterjdshop/model/CategoryListInfo.dart';
-import 'package:flutterjdshop/services/MyImageWidget.dart';
-import 'package:flutterjdshop/services/ScreenAdaptor.dart';
-import 'package:flutterjdshop/config/ServerInterface.dart';
-import 'package:flutterjdshop/config/BasicConfig.dart';
 
-import '../../config/BasicConfig.dart';
+import '../../config/basic_config.dart';
+import '../../config/server_interface.dart';
+import '../../model/category_items_info.dart';
+import '../../model/category_list_info.dart';
+import '../../services/my_image_widget.dart';
+import '../../services/screen_adaptor.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -18,10 +17,13 @@ class CategoryPage extends StatefulWidget {
   }
 }
 
-class CategoryPageState extends State {
+class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
   int selectedIndex = 0;
   List<CategoryList> leftList = [];
   List<CategoryItems> rightList = [];
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -63,7 +65,7 @@ class CategoryPageState extends State {
                       width: double.infinity,
                       height: ScreenAdaptor.setHeight(128),
                       alignment: Alignment.center,
-                      color: selectedIndex == index ? Colors.deepPurple[100] : Colors.white,
+                      color: selectedIndex == index ? Colors.white : Colors.lightBlue[50] ,
                       child: Text(
                         leftList[index].title!,
                         textAlign: TextAlign.center,
@@ -92,7 +94,7 @@ class CategoryPageState extends State {
   Widget rightWidget() {
     if (rightList.isNotEmpty) {
       return Container(
-        color: const Color.fromRGBO(240, 246, 246, 0.9),
+        color: Colors.white,
         child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 1 / 1.5, crossAxisCount: 3),
             itemCount: rightList.length,
@@ -124,7 +126,7 @@ class CategoryPageState extends State {
                                   fontSize: 12,
                                 )),
                             Text(
-                              rightList[index].status!,
+                              rightList[index].price!.toStringAsFixed(2),
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                 color: Colors.black54,
@@ -156,4 +158,6 @@ class CategoryPageState extends State {
       ],
     );
   }
+
+
 }
