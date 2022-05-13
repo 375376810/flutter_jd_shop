@@ -63,7 +63,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
                 InkWell(
                   child: Container(
                       width: double.infinity,
-                      height: ScreenAdaptor.setHeight(128),
+                      height: ScreenAdaptor.height(128),
                       alignment: Alignment.center,
                       color: selectedIndex == index ? Colors.white : Colors.lightBlue[50] ,
                       child: Text(
@@ -79,7 +79,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
                   },
                 ),
                 Divider(
-                  height: ScreenAdaptor.setHeight(1),
+                  height: ScreenAdaptor.height(1),
                 )
               ],
             );
@@ -105,7 +105,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
                     AspectRatio(aspectRatio: 1 / 1, child: MyImageWidget(BasicConfig.basicServerUrl + rightList[index].url!)),
                     Container(
                         margin: const EdgeInsets.all(1),
-                        height: ScreenAdaptor.setHeight(60),
+                        height: ScreenAdaptor.height(60),
                         child: Text(
                           rightList[index].desc!,
                           textAlign: TextAlign.left,
@@ -116,7 +116,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
                         )),
                     Container(
                         margin: const EdgeInsets.all(1),
-                        height: ScreenAdaptor.setHeight(32),
+                        height: ScreenAdaptor.height(32),
                         child: Row(
                           children: [
                             const Text("￥:",

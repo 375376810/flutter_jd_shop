@@ -23,9 +23,12 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   List<SwiperItems> swiperItemList = [];
   int hotProductItemsCount = 0;
   List<HotProductItemsByPage> hotProductItemsByPage = [];
+
   //分页从第0页开始
   int pageNumber = 0;
-  int pageSize = 30;
+  int pageSize = 6;
+  ScrollController scrollController = ScrollController();
+  bool flag = true;
 
   @override
   bool get wantKeepAlive => true;
@@ -36,6 +39,58 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     getSwiperInfo();
     getHotProductItemsCount();
     getHotProductItemsByPage();
+    //监听滚动条滚动事件
+    scrollController.addListener(() {
+      if (flag && scrollController.position.pixels >= scrollController.position.maxScrollExtent - 20) {
+        setState(() {
+          pageNumber++;
+        });
+        //如果当前页小于总页数,说明还有数据
+        if (pageNumber < hotProductItemsCount / pageSize) {
+          getHotProductItemsByPage();
+        }
+      }
+    });
+  }
+
+  Widget hasMoreWidget() {
+    return Container(
+        width: double.infinity,
+        height: ScreenAdaptor.height(60),
+        alignment: Alignment.center,
+        margin: EdgeInsets.all(ScreenAdaptor.width(10)),
+        child: pageNumber < hotProductItemsCount / pageSize
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  SizedBox(width: 10),
+                  Text("加载更多...")
+                ],
+              )
+            : InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.arrow_upward,
+                      color: Colors.blue,
+                    ),
+                    Text(
+                      "回到顶部",
+                      style: TextStyle(color: Colors.blue, fontSize: ScreenAdaptor.size(26)),
+                    )
+                  ],
+                ),
+                onTap: () {
+                  scrollController.jumpTo(0);
+                },
+              ));
   }
 
   getHotProductItemsCount() async {
@@ -48,11 +103,15 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   }
 
   getHotProductItemsByPage() async {
+    setState(() {
+      flag = false;
+    });
     String path = BasicConfig.basicServerUrl + ServiceInterface.getHotProductItemsByPage;
     var response = await Dio().get(path, queryParameters: {"page_number": pageNumber, "page_size": pageSize});
     var info = HotProductItemsInfo.fromJson(response.data);
     setState(() {
-      hotProductItemsByPage = info.hotProductItemsByPage!;
+      hotProductItemsByPage.addAll(info.hotProductItemsByPage!);
+      flag = true;
     });
   }
 
@@ -81,7 +140,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       );
     } else {
       return Container(
-        height: ScreenAdaptor.setHeight(300),
+        height: ScreenAdaptor.height(300),
         alignment: Alignment.center,
         child: const Text(""),
       );
@@ -92,10 +151,10 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   Widget titleWidget(String title) {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(left: ScreenAdaptor.setWidth(10)),
-      padding: EdgeInsets.only(left: ScreenAdaptor.setWidth(10)),
-      height: ScreenAdaptor.setHeight(32),
-      decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.blue.shade800, width: ScreenAdaptor.setWidth(10)))),
+      margin: EdgeInsets.only(left: ScreenAdaptor.width(10)),
+      padding: EdgeInsets.only(left: ScreenAdaptor.width(10)),
+      height: ScreenAdaptor.height(32),
+      decoration: BoxDecoration(border: Border(left: BorderSide(color: Colors.blue.shade800, width: ScreenAdaptor.width(10)))),
       child: Text(
         title,
         textAlign: TextAlign.center,
@@ -107,8 +166,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   ///猜你喜欢商品组件
   Widget guessYouLikeWidget() {
     return Container(
-      margin: EdgeInsets.all(ScreenAdaptor.setWidth(5)),
-      height: ScreenAdaptor.setHeight(255),
+      margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+      height: ScreenAdaptor.height(255),
       child: ListView.builder(
           itemCount: 10,
           scrollDirection: Axis.horizontal,
@@ -116,17 +175,17 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
             return Column(
               children: [
                 Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.setWidth(5)),
-                  width: ScreenAdaptor.setWidth(200),
-                  height: ScreenAdaptor.setHeight(200),
-                  child: MyImageWidget(BasicConfig.basicServerUrl + "images/hot/hot${index + 1}.jpg"),
+                  margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                  width: ScreenAdaptor.width(200),
+                  height: ScreenAdaptor.height(200),
+                  child: MyImageWidget(BasicConfig.basicServerUrl + "images/likes/likes${index + 1}.jpg"),
                 ),
                 Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.setWidth(5)),
-                  height: ScreenAdaptor.setHeight(30),
+                  margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                  height: ScreenAdaptor.height(30),
                   child: Text(
                     "第${index + 1}个商品",
-                    style: TextStyle(fontSize: ScreenAdaptor.setWidth(23)),
+                    style: TextStyle(fontSize: ScreenAdaptor.width(23)),
                   ),
                 )
               ],
@@ -144,7 +203,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           width: (screenWith / 2),
           padding: const EdgeInsets.all(10),
           //height: 380,
-          decoration: BoxDecoration(border: Border.all(width: ScreenAdaptor.setWidth(1), color: const Color.fromRGBO(233, 233, 233, 0.9))),
+          decoration: BoxDecoration(border: Border.all(width: ScreenAdaptor.width(1), color: const Color.fromRGBO(233, 233, 233, 0.9))),
           child: Column(
             children: [
               AspectRatio(
@@ -152,7 +211,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                 child: MyImageWidget(BasicConfig.basicServerUrl + hotProductItemsByPage[index].url!),
               ),
               Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.setWidth(8)),
+                  margin: EdgeInsets.all(ScreenAdaptor.width(8)),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "${hotProductItemsByPage[index].title}",
@@ -165,7 +224,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
+                    child:
+                        Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
                   )
                 ],
               )
@@ -173,23 +233,24 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           ));
       hotList.add(w);
     }
-    return Wrap(children: hotList);
+    return Wrap(
+      children: hotList,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     //初始化屏幕适配750*1344
     ScreenAdaptor.init(context);
-    return ListView(
-      children: <Widget>[
-        swiperWidget(),
-        SizedBox(height: ScreenAdaptor.setHeight(10)),
-        titleWidget("猜你喜欢"),
-        guessYouLikeWidget(),
-        SizedBox(height: ScreenAdaptor.setHeight(10)),
-        titleWidget("热门推荐"),
-        hotProductWidget()
-      ],
-    );
+    return ListView(controller: scrollController, children: <Widget>[
+      swiperWidget(),
+      SizedBox(height: ScreenAdaptor.height(10)),
+      titleWidget("猜你喜欢"),
+      guessYouLikeWidget(),
+      SizedBox(height: ScreenAdaptor.height(10)),
+      titleWidget("热门推荐"),
+      hotProductWidget(),
+      hasMoreWidget()
+    ]);
   }
 }
