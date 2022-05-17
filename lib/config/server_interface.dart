@@ -14,4 +14,7 @@ class ServiceInterface {
   //分页查询热门商品
   static const String getHotProductItemsByPage = "get_hot_product_items_by_page";
 
+  //猜你喜欢商品接口
+static const String guessYouLikeItemsInfo = "guess_you_like_items_info";
+
 }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:flutterjdshop/model/guess_you_like_items_info.dart';
 import 'package:flutterjdshop/model/hot_product_items_info.dart';
 
 import '../../config/basic_config.dart';
@@ -23,6 +24,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   List<SwiperItems> swiperItemList = [];
   int hotProductItemsCount = 0;
   List<HotProductItemsByPage> hotProductItemsByPage = [];
+  List<GuessYouLikeItems> guessYouLikeItemList = [];
 
   //分页从第0页开始
   int pageNumber = 0;
@@ -37,6 +39,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   void initState() {
     super.initState();
     getSwiperInfo();
+    getGuessYouLikeItems();
     getHotProductItemsCount();
     getHotProductItemsByPage();
     //监听滚动条滚动事件
@@ -91,6 +94,15 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   scrollController.jumpTo(0);
                 },
               ));
+  }
+
+  getGuessYouLikeItems() async {
+    String path = BasicConfig.basicServerUrl + ServiceInterface.guessYouLikeItemsInfo;
+    var response = await Dio().get(path);
+    var info = GuessYouLikeItemsInfo.fromJson(response.data);
+    setState(() {
+      guessYouLikeItemList = info.guessYouLikeItems!;
+    });
   }
 
   getHotProductItemsCount() async {
@@ -169,26 +181,29 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       margin: EdgeInsets.all(ScreenAdaptor.width(5)),
       height: ScreenAdaptor.height(255),
       child: ListView.builder(
-          itemCount: 10,
+          itemCount: guessYouLikeItemList.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.width(5)),
-                  width: ScreenAdaptor.width(200),
-                  height: ScreenAdaptor.height(200),
-                  child: MyImageWidget(BasicConfig.basicServerUrl + "images/likes/likes${index + 1}.jpg"),
-                ),
-                Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.width(5)),
-                  height: ScreenAdaptor.height(30),
-                  child: Text(
-                    "第${index + 1}个商品",
-                    style: TextStyle(fontSize: ScreenAdaptor.width(23)),
+            return InkWell(
+              onTap: (){
+                goToDetaislPage(guessYouLikeItemList[index].desc!, guessYouLikeItemList[index].url!, guessYouLikeItemList[index].price);
+              },
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                    width: ScreenAdaptor.width(200),
+                    height: ScreenAdaptor.height(200),
+                    child: MyImageWidget(BasicConfig.basicServerUrl + guessYouLikeItemList[index].url!),
                   ),
-                )
-              ],
+                  Container(
+                    margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                    width: ScreenAdaptor.width(200),
+                    height: ScreenAdaptor.height(30),
+                    child: Text(guessYouLikeItemList[index].title!, style: TextStyle(fontSize: ScreenAdaptor.width(23)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  )
+                ],
+              ),
             );
           }),
     );
@@ -204,32 +219,37 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           padding: const EdgeInsets.all(10),
           //height: 380,
           decoration: BoxDecoration(border: Border.all(width: ScreenAdaptor.width(1), color: const Color.fromRGBO(233, 233, 233, 0.9))),
-          child: Column(
-            children: [
-              AspectRatio(
-                aspectRatio: 1 / 1,
-                child: MyImageWidget(BasicConfig.basicServerUrl + hotProductItemsByPage[index].url!),
-              ),
-              Container(
-                  margin: EdgeInsets.all(ScreenAdaptor.width(8)),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${hotProductItemsByPage[index].title}",
-                    style: const TextStyle(color: Colors.black38),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-              Stack(
-                children: [
-                  Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child:
-                        Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
-                  )
-                ],
-              )
-            ],
+          child: InkWell(
+            onTap: (){
+              goToDetaislPage(hotProductItemsByPage[index].desc!, hotProductItemsByPage[index].url!, hotProductItemsByPage[index].price);
+            },
+            child: Column(
+              children: [
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: MyImageWidget(BasicConfig.basicServerUrl + hotProductItemsByPage[index].url!),
+                ),
+                Container(
+                    margin: EdgeInsets.all(ScreenAdaptor.width(8)),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "${hotProductItemsByPage[index].title}",
+                      style: const TextStyle(color: Colors.black38),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                Stack(
+                  children: [
+                    Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child:
+                          Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
+                    )
+                  ],
+                )
+              ],
+            ),
           ));
       hotList.add(w);
     }
@@ -242,15 +262,38 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     //初始化屏幕适配750*1344
     ScreenAdaptor.init(context);
-    return ListView(controller: scrollController, children: <Widget>[
-      swiperWidget(),
-      SizedBox(height: ScreenAdaptor.height(10)),
-      titleWidget("猜你喜欢"),
-      guessYouLikeWidget(),
-      SizedBox(height: ScreenAdaptor.height(10)),
-      titleWidget("热门推荐"),
-      hotProductWidget(),
-      hasMoreWidget()
-    ]);
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
+        title: InkWell(
+            child: Container(
+              height: ScreenAdaptor.height(86),
+              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, "/search");
+            }),
+        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
+      ),
+      body: ListView(controller: scrollController, children: <Widget>[
+        swiperWidget(),
+        SizedBox(height: ScreenAdaptor.height(10)),
+        titleWidget("猜你喜欢"),
+        guessYouLikeWidget(),
+        SizedBox(height: ScreenAdaptor.height(10)),
+        titleWidget("热门推荐"),
+        hotProductWidget(),
+        hasMoreWidget()
+      ]),
+    );
+  }
+
+  ///点击后进入详情页
+  goToDetaislPage(String desc, String url, double? price) {
+    Navigator.pushNamed(context, '/product_details', arguments: {"desc": desc, "url": url, "price": price});
   }
 }

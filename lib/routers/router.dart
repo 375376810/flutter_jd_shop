@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../pages/product/product_page.dart';
 import '../pages/search_page.dart';
 import '../pages/tabs/index_page.dart';
 
@@ -8,6 +9,7 @@ import '../pages/tabs/index_page.dart';
 final Map<String, Function> routes = {
   '/': (context) => const IndexPage(),
   '/search': (context) => const SearchPage(),
+  '/product_details' : (context,{arguments}) => ProductPage(arguments: arguments)
 };
 
 //固定写法

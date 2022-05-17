@@ -101,41 +101,44 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
             itemBuilder: (context, index) {
               return Container(
                   margin: const EdgeInsets.all(3),
-                  child: Column(children: [
-                    AspectRatio(aspectRatio: 1 / 1, child: MyImageWidget(BasicConfig.basicServerUrl + rightList[index].url!)),
-                    Container(
-                        margin: const EdgeInsets.all(1),
-                        height: ScreenAdaptor.height(60),
-                        child: Text(
-                          rightList[index].desc!,
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 11,
-                          ),
-                        )),
-                    Container(
-                        margin: const EdgeInsets.all(1),
-                        height: ScreenAdaptor.height(32),
-                        child: Row(
-                          children: [
-                            const Text("￥:",
+                  child: InkWell(
+                    onTap: (){goToDetaislPage(rightList[index].desc!,rightList[index].url!,rightList[index].price);},
+                    child: Column(children: [
+                      AspectRatio(aspectRatio: 1 / 1, child: MyImageWidget(BasicConfig.basicServerUrl + rightList[index].url!)),
+                      Container(
+                          margin: const EdgeInsets.all(1),
+                          height: ScreenAdaptor.height(60),
+                          child: Text(
+                            rightList[index].desc!,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                              color: Colors.black54,
+                              fontSize: 11,
+                            ),
+                          )),
+                      Container(
+                          margin: const EdgeInsets.all(1),
+                          height: ScreenAdaptor.height(32),
+                          child: Row(
+                            children: [
+                              const Text("￥:",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 12,
+                                  )),
+                              Text(
+                                rightList[index].price!.toStringAsFixed(2),
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12,
-                                )),
-                            Text(
-                              rightList[index].price!.toStringAsFixed(2),
-                              textAlign: TextAlign.left,
-                              style: const TextStyle(
-                                color: Colors.black54,
-                                fontSize: 12,
-                              ),
-                            )
-                          ],
-                        ))
-                  ]));
+                                ),
+                              )
+                            ],
+                          ))
+                    ]),
+                  ));
             }),
       );
     } else {
@@ -148,15 +151,37 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     ScreenAdaptor.init(context);
-    return Flex(
-      direction: Axis.horizontal,
-      children: [
-        //左侧
-        Expanded(flex: 2, child: leftWidget()),
-        //右侧
-        Expanded(flex: 8, child: rightWidget())
-      ],
+    return Scaffold(
+      appBar:AppBar(
+        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
+        title: InkWell(
+            child: Container(
+              height: ScreenAdaptor.height(86),
+              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, "/search");
+            }),
+        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
+      ),
+      body: Flex(
+        direction: Axis.horizontal,
+        children: [
+          //左侧
+          Expanded(flex: 2, child: leftWidget()),
+          //右侧
+          Expanded(flex: 8, child: rightWidget())
+        ],
+      ),
     );
+  }
+
+  goToDetaislPage(String desc, String url, double? price) {
+    Navigator.pushNamed(context, '/product_details', arguments: {"desc": desc, "url": url, "price": price});
   }
 
 
