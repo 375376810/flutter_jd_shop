@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutterjdshop/model/guess_you_like_items_info.dart';
 import 'package:flutterjdshop/model/hot_product_items_info.dart';
+import 'package:flutterjdshop/model/product.dart';
 
 import '../../config/basic_config.dart';
 import '../../config/server_interface.dart';
 import '../../model/hot_product_items_count_info.dart';
 import '../../model/swiper_info.dart';
+import '../../routers/router.dart';
 import '../../services/my_image_widget.dart';
 import '../../services/screen_adaptor.dart';
 
@@ -185,8 +187,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
-              onTap: (){
-                goToDetaislPage(guessYouLikeItemList[index].desc!, guessYouLikeItemList[index].url!, guessYouLikeItemList[index].price);
+              onTap: () {
+                Product guessYouLikeProduct = Product(guessYouLikeItemList[index].title!, guessYouLikeItemList[index].desc!, guessYouLikeItemList[index].url!, guessYouLikeItemList[index].price!);
+                goToDetaislPage(context, guessYouLikeProduct);
               },
               child: Column(
                 children: [
@@ -220,8 +223,9 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
           //height: 380,
           decoration: BoxDecoration(border: Border.all(width: ScreenAdaptor.width(1), color: const Color.fromRGBO(233, 233, 233, 0.9))),
           child: InkWell(
-            onTap: (){
-              goToDetaislPage(hotProductItemsByPage[index].desc!, hotProductItemsByPage[index].url!, hotProductItemsByPage[index].price);
+            onTap: () {
+              Product hotProduct = Product(hotProductItemsByPage[index].title!, hotProductItemsByPage[index].desc!, hotProductItemsByPage[index].url!, hotProductItemsByPage[index].price!);
+              goToDetaislPage(context, hotProduct);
             },
             child: Column(
               children: [
@@ -243,8 +247,8 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                     Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
                     Align(
                       alignment: Alignment.centerRight,
-                      child:
-                          Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}", style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
+                      child: Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}",
+                          style: const TextStyle(color: Colors.black45, fontSize: 13, decoration: TextDecoration.lineThrough)),
                     )
                   ],
                 )
@@ -290,10 +294,5 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
         hasMoreWidget()
       ]),
     );
-  }
-
-  ///点击后进入详情页
-  goToDetaislPage(String desc, String url, double? price) {
-    Navigator.pushNamed(context, '/product_details', arguments: {"desc": desc, "url": url, "price": price});
   }
 }

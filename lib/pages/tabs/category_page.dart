@@ -5,6 +5,8 @@ import '../../config/basic_config.dart';
 import '../../config/server_interface.dart';
 import '../../model/category_items_info.dart';
 import '../../model/category_list_info.dart';
+import '../../model/product.dart';
+import '../../routers/router.dart';
 import '../../services/my_image_widget.dart';
 import '../../services/screen_adaptor.dart';
 
@@ -17,7 +19,7 @@ class CategoryPage extends StatefulWidget {
   }
 }
 
-class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
+class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
   int selectedIndex = 0;
   List<CategoryList> leftList = [];
   List<CategoryItems> rightList = [];
@@ -65,7 +67,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
                       width: double.infinity,
                       height: ScreenAdaptor.height(128),
                       alignment: Alignment.center,
-                      color: selectedIndex == index ? Colors.white : Colors.lightBlue[50] ,
+                      color: selectedIndex == index ? Colors.white : Colors.lightBlue[50],
                       child: Text(
                         leftList[index].title!,
                         textAlign: TextAlign.center,
@@ -102,7 +104,10 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
               return Container(
                   margin: const EdgeInsets.all(3),
                   child: InkWell(
-                    onTap: (){goToDetaislPage(rightList[index].desc!,rightList[index].url!,rightList[index].price);},
+                    onTap: () {
+                      Product currentProduct = Product(rightList[index].title!, rightList[index].desc!, rightList[index].url!, rightList[index].price!);
+                      goToDetaislPage(context, currentProduct);
+                    },
                     child: Column(children: [
                       AspectRatio(aspectRatio: 1 / 1, child: MyImageWidget(BasicConfig.basicServerUrl + rightList[index].url!)),
                       Container(
@@ -152,7 +157,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
   Widget build(BuildContext context) {
     ScreenAdaptor.init(context);
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
         title: InkWell(
             child: Container(
@@ -179,10 +184,4 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin{
       ),
     );
   }
-
-  goToDetaislPage(String desc, String url, double? price) {
-    Navigator.pushNamed(context, '/product_details', arguments: {"desc": desc, "url": url, "price": price});
-  }
-
-
 }

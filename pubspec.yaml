@@ -29,24 +29,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
   #flutter_swiper插件
   #flutter_swiper: ^1.1.6
   flutter_swiper_null_safety: ^1.0.2
-
   #带缓存功能的网络图片插件
   cached_network_image: ^3.2.0
-
   #flutter_screenutil屏幕适配插件
   flutter_screenutil: ^5.4.0
-
   #http请求库
   dio: ^4.0.6
-
+  #状态管理
+  provider: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
