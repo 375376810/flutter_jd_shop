@@ -38,7 +38,7 @@ dependencies:
   #带缓存功能的网络图片插件
   cached_network_image: ^3.2.0
   #flutter_screenutil屏幕适配插件
-  flutter_screenutil: ^5.4.0
+  flutter_screenutil: ^5.5.3
   #http请求库
   dio: ^4.0.6
   #状态管理

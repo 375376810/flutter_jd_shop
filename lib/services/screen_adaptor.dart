@@ -5,8 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ScreenAdaptor {
   ///初始化
   static init(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(750, 1344),
-        orientation: Orientation.portrait);
+    ScreenUtil.init(context, designSize: const Size(750, 1344));
   }
 
   ///设置高度

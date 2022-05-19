@@ -46,14 +46,12 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     getHotProductItemsByPage();
     //监听滚动条滚动事件
     scrollController.addListener(() {
-      if (flag && scrollController.position.pixels >= scrollController.position.maxScrollExtent - 20) {
+      //如果当前页小于总页数,说明还有数据
+      if (flag && scrollController.position.pixels >= scrollController.position.maxScrollExtent - 20 && pageNumber < hotProductItemsCount / pageSize) {
         setState(() {
           pageNumber++;
-        });
-        //如果当前页小于总页数,说明还有数据
-        if (pageNumber < hotProductItemsCount / pageSize) {
           getHotProductItemsByPage();
-        }
+        });
       }
     });
   }
@@ -180,36 +178,35 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   ///猜你喜欢商品组件
   Widget guessYouLikeWidget() {
     return Container(
-      margin: EdgeInsets.all(ScreenAdaptor.width(5)),
-      height: ScreenAdaptor.height(255),
-      child: ListView.builder(
-          itemCount: guessYouLikeItemList.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              onTap: () {
-                Product guessYouLikeProduct = Product(guessYouLikeItemList[index].title!, guessYouLikeItemList[index].desc!, guessYouLikeItemList[index].url!, guessYouLikeItemList[index].price!);
-                goToDetaislPage(context, guessYouLikeProduct);
-              },
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(ScreenAdaptor.width(5)),
-                    width: ScreenAdaptor.width(200),
-                    height: ScreenAdaptor.height(200),
-                    child: MyImageWidget(BasicConfig.basicServerUrl + guessYouLikeItemList[index].url!),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(ScreenAdaptor.width(5)),
-                    width: ScreenAdaptor.width(200),
-                    height: ScreenAdaptor.height(30),
-                    child: Text(guessYouLikeItemList[index].title!, style: TextStyle(fontSize: ScreenAdaptor.width(23)), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  )
-                ],
-              ),
-            );
-          }),
-    );
+        margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+        height: ScreenAdaptor.height(255),
+        child: ListView.builder(
+            itemCount: guessYouLikeItemList.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: () {
+                  Product guessYouLikeProduct = Product(guessYouLikeItemList[index].title, guessYouLikeItemList[index].desc, guessYouLikeItemList[index].url, guessYouLikeItemList[index].price);
+                  goToDetaislPage(context, guessYouLikeProduct);
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                      width: ScreenAdaptor.width(200),
+                      height: ScreenAdaptor.height(200),
+                      child: MyImageWidget(BasicConfig.basicServerUrl + guessYouLikeItemList[index].url!),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(ScreenAdaptor.width(5)),
+                      width: ScreenAdaptor.width(200),
+                      height: ScreenAdaptor.height(30),
+                      child: Text(guessYouLikeItemList[index].title!, style: TextStyle(fontSize: ScreenAdaptor.width(23)), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    )
+                  ],
+                ),
+              );
+            }));
   }
 
   ///热门推荐商品组件

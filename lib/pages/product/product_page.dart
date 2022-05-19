@@ -129,7 +129,7 @@ class _ProductPageState extends State<ProductPage> {
                             Expanded(
                               flex: 1,
                               child: Ink(
-                                color: Colors.redAccent,
+                                color: const Color.fromRGBO(102, 103, 171, 1),
                                 child: InkWell(
                                   onTap: () {
                                     print("立即购买");
