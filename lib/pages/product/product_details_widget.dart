@@ -17,7 +17,6 @@ class ProductDetailsWidget extends StatefulWidget {
 class _ProductDetailsWidgetState extends State<ProductDetailsWidget> {
   @override
   Widget build(BuildContext context) {
-    ScreenAdaptor.init(context);
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
     return SizedBox(
       width: double.infinity,
