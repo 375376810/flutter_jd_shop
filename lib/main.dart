@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutterjdshop/generated/l10n.dart';
 import 'package:flutterjdshop/providers/product_provider.dart';
 import 'package:flutterjdshop/routers/Router.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +29,8 @@ class MyAppState extends State {
         )
       ],
       child: MaterialApp(
+        localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
+        supportedLocales: S.delegate.supportedLocales,
         theme: ThemeData(colorScheme: Theme.of(context).colorScheme.copyWith(primary: const Color.fromRGBO(102, 103, 171, 1))),
         initialRoute: '/',
         onGenerateRoute: routeGenerator,

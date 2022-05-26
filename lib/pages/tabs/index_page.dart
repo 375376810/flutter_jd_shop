@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterjdshop/pages/tabs/user_page.dart';
 
-import 'cart_page.dart';
+import 'shopping_cart_page.dart';
 import 'category_page.dart';
 import 'home_page.dart';
 
@@ -16,7 +16,7 @@ class IndexPage extends StatefulWidget {
 
 class IndexPageState extends State<IndexPage> {
   int currentIndex = 0;
-  List<Widget> pageList = [const HomePage(), const CategoryPage(), const CartPage(), const UserPage()];
+  List<Widget> pageList = [const HomePage(), const CategoryPage(), const ShoppingCartPage(), const UserPage()];
   late PageController controller;
 
   @override

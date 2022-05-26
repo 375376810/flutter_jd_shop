@@ -47,6 +47,9 @@ dependencies:
   fluttertoast: ^8.0.9
   #本地配置文件
   shared_preferences: ^2.0.15
+  #国际化
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,3 +101,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

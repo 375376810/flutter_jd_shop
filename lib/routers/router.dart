@@ -32,3 +32,5 @@ goToDetaislPage(BuildContext context, Product currentProduct) {
   productProvider.setCurrentProduct(currentProduct);
   Navigator.pushNamed(context, '/product_details');
 }
+
+

@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterjdshop/providers/product_provider.dart';
 import 'package:flutterjdshop/services/my_image_widget.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/basic_config.dart';
+import '../../providers/product_provider.dart';
 
 class ProductDetailsWidget extends StatefulWidget {
   const ProductDetailsWidget({Key? key}) : super(key: key);

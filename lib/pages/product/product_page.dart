@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutterjdshop/generated/l10n.dart';
+import 'package:flutterjdshop/model/shopping_cart_product.dart';
 import 'package:flutterjdshop/pages/product/product_details_widget.dart';
 import 'package:flutterjdshop/pages/product/product_ratings_widget.dart';
 import 'package:flutterjdshop/services/my_image_widget.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
+import 'package:flutterjdshop/services/shopping_cart_service.dart';
 import 'package:flutterjdshop/widgets/my_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -148,6 +151,8 @@ class _ProductPageState extends State<ProductPage> {
                                 child: InkWell(
                                   onTap: () {
                                     print("立即购买");
+                                    //复制加入购物车
+                                    showBottom(productProvider);
                                   },
                                   child: Container(
                                     alignment: Alignment.center,
@@ -164,7 +169,7 @@ class _ProductPageState extends State<ProductPage> {
             )));
   }
 
-  void showBottom(productProvider) {
+  void showBottom(ProductProvider productProvider) {
     List<ProductSpecs> specsList = [];
     List<ProductColors> colorsList = [];
     initSpecList(specsList);
@@ -372,7 +377,7 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              addToCart();
+                              addToCart(productProvider);
                             },
                           ),
                         ))
@@ -481,7 +486,7 @@ class _ProductPageState extends State<ProductPage> {
     return chipList;
   }
 
-  void addToCart() {
+  void addToCart(ProductProvider productProvider) async {
     print("result : selectedSize " + selectedSize + " selectedColor" + selectedColor + " quantity" + quantity.toString());
     //非空判断
     if (selectedSize.isEmpty) {
@@ -496,7 +501,31 @@ class _ProductPageState extends State<ProductPage> {
       Fluttertoast.showToast(msg: "请选择购买数量...");
       return;
     }
+    //生成一个购物车item
+    //this.title, this.desc, this.url, this.price,
+    ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct(
+        productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url, productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
     //将购买的信息加入购物车本地存储配置文件
+    bool success = await ShoppingCartService.addToCart(shoppingCartProduct);
+    if (success) {
+      Fluttertoast.showToast(
+        //加入购物车成功
+        msg: S.current.product_page_jiarugouwuchechenggong,
+        backgroundColor: Colors.black38,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+      );
+      //关闭底部框
+      Navigator.pop(context);
+    } else {
+      Fluttertoast.showToast(
+        //出现错误,请重试
+        msg: S.current.product_page_chuxiancuowuqingchongshi,
+        backgroundColor: Colors.black38,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+      );
+    }
   }
 }
 
