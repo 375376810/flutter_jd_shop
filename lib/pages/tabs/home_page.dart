@@ -4,6 +4,7 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:flutterjdshop/model/guess_you_like_items_info.dart';
 import 'package:flutterjdshop/model/hot_product_items_info.dart';
 import 'package:flutterjdshop/model/product.dart';
+import 'package:flutterjdshop/widgets/my_colors.dart';
 
 import '../../config/basic_config.dart';
 import '../../config/server_interface.dart';
@@ -56,6 +57,40 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    //初始化屏幕适配750*1344
+    ScreenAdaptor.init(context);
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
+        title: InkWell(
+            child: Container(
+              height: ScreenAdaptor.height(86),
+              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
+              ),
+            ),
+            onTap: () {
+              Navigator.pushNamed(context, "/search");
+            }),
+        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
+      ),
+      body: ListView(controller: scrollController, children: <Widget>[
+        swiperWidget(),
+        SizedBox(height: ScreenAdaptor.height(10)),
+        titleWidget("猜你喜欢"),
+        guessYouLikeWidget(),
+        SizedBox(height: ScreenAdaptor.height(10)),
+        titleWidget("热门推荐"),
+        hotProductWidget(),
+        hasMoreWidget()
+      ]),
+    );
+  }
+
   Widget hasMoreWidget() {
     return Container(
         width: double.infinity,
@@ -82,11 +117,11 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                   children: [
                     const Icon(
                       Icons.arrow_upward,
-                      color: Colors.blue,
+                      color: MyColors.mainBackgroundColor,
                     ),
                     Text(
                       "回到顶部",
-                      style: TextStyle(color: Colors.blue, fontSize: ScreenAdaptor.size(26)),
+                      style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(26)),
                     )
                   ],
                 ),
@@ -241,7 +276,12 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
                     )),
                 Stack(
                   children: [
-                    Align(alignment: Alignment.centerLeft, child: Text("￥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}", style: const TextStyle(color: Colors.red, fontSize: 15))),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "¥${hotProductItemsByPage[index].price!.toStringAsFixed(2)}",
+                          style: const TextStyle(color: MyColors.mainBackgroundColor, fontSize: 15),
+                        )),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text("￥${(hotProductItemsByPage[index].price! / 0.8).toStringAsFixed(2)}",
@@ -256,40 +296,6 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     }
     return Wrap(
       children: hotList,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //初始化屏幕适配750*1344
-    ScreenAdaptor.init(context);
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
-        title: InkWell(
-            child: Container(
-              height: ScreenAdaptor.height(86),
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
-              ),
-            ),
-            onTap: () {
-              Navigator.pushNamed(context, "/search");
-            }),
-        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
-      ),
-      body: ListView(controller: scrollController, children: <Widget>[
-        swiperWidget(),
-        SizedBox(height: ScreenAdaptor.height(10)),
-        titleWidget("猜你喜欢"),
-        guessYouLikeWidget(),
-        SizedBox(height: ScreenAdaptor.height(10)),
-        titleWidget("热门推荐"),
-        hotProductWidget(),
-        hasMoreWidget()
-      ]),
     );
   }
 }

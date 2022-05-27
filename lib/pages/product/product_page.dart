@@ -208,7 +208,7 @@ class _ProductPageState extends State<ProductPage> {
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.fromLTRB(ScreenAdaptor.width(15), ScreenAdaptor.height(15), 0, 0),
                               child: Text(
-                                "￥" + productProvider.currentProduct!.price!.toStringAsFixed(2),
+                                "¥" + productProvider.currentProduct!.price!.toStringAsFixed(2),
                                 style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(32)),
                               ),
                             ),

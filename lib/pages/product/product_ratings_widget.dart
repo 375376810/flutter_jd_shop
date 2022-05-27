@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../services/my_image_widget.dart';
 import '../../config/basic_config.dart';
 import '../../services/screen_adaptor.dart';
+import '../../widgets/my_colors.dart';
 
 class ProductRatingsWidget extends StatefulWidget {
   const ProductRatingsWidget({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                             Icon(Icons.star, color: Colors.orangeAccent, size: ScreenAdaptor.size(39)),
                             Icon(Icons.star, color: Colors.orangeAccent, size: ScreenAdaptor.size(39)),
                             SizedBox(width: ScreenAdaptor.width(10)),
-                            Text("5分", style: TextStyle(color: Colors.redAccent, fontSize: ScreenAdaptor.size(26)))
+                            Text("5分", style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(26)))
                           ],
                         ),
                       )
@@ -67,13 +68,13 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                     children: [
                       Text(
                         "查看更多",
-                        style: TextStyle(color: Colors.redAccent, fontSize: ScreenAdaptor.size(30)),
+                        style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(30)),
                         textAlign: TextAlign.center,
                       ),
                       Icon(
                         Icons.arrow_forward_ios,
                         size: ScreenAdaptor.size(38),
-                        color: Colors.redAccent,
+                        color: MyColors.mainBackgroundColor,
                       ),
                       SizedBox(
                         width: ScreenAdaptor.width(10),

@@ -76,6 +76,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Shopping cart`
+  String get shopping_cart_page_gouwuche {
+    return Intl.message(
+      'Shopping cart',
+      name: 'shopping_cart_page_gouwuche',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -79,4 +79,15 @@ class ShoppingCartService {
   static void clearShoppingCart() {
     StorageService.remove('shopping_cart_list');
   }
+
+  ///添加很多数据
+  static Future<bool> addListToCart(List<ShoppingCartProduct> shoppingCartList) async {
+    try {
+      StorageService.setString('shopping_cart_list', json.encode(shoppingCartList));
+    } catch(e) {
+      print(e);
+      return false;
+    }
+    return true;
+  }
 }

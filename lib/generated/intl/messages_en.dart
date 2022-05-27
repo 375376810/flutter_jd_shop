@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "product_page_ceshi" : MessageLookupByLibrary.simpleMessage("test"),
     "product_page_chuxiancuowuqingchongshi" : MessageLookupByLibrary.simpleMessage("An error occurred,Please retry"),
-    "product_page_jiarugouwuchechenggong" : MessageLookupByLibrary.simpleMessage("Add to cart success")
+    "product_page_jiarugouwuchechenggong" : MessageLookupByLibrary.simpleMessage("Add to cart success"),
+    "shopping_cart_page_gouwuche" : MessageLookupByLibrary.simpleMessage("Shopping cart")
   };
 }

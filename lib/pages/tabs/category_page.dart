@@ -126,7 +126,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
                           height: ScreenAdaptor.height(32),
                           child: Row(
                             children: [
-                              const Text("￥:",
+                              const Text("¥:",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: Colors.black54,
