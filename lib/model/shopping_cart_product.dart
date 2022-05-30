@@ -6,6 +6,7 @@ class ShoppingCartProduct {
   String? size;
   String? color;
   int? quantity;
+  bool? selected = false;
 
   ShoppingCartProduct(this.title, this.desc, this.url, this.price, this.size, this.color, this.quantity);
 

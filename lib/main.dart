@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutterjdshop/generated/l10n.dart';
 import 'package:flutterjdshop/providers/product_provider.dart';
 import 'package:flutterjdshop/routers/Router.dart';
+import 'package:flutterjdshop/widgets/my_colors.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(const MyApp());
@@ -19,7 +20,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State {
   @override
   Widget build(BuildContext context) {
-    //更改主色料为PANTONE 17-3938
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -31,7 +31,7 @@ class MyAppState extends State {
       child: MaterialApp(
         localizationsDelegates: const [GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate, GlobalWidgetsLocalizations.delegate, S.delegate],
         supportedLocales: S.delegate.supportedLocales,
-        theme: ThemeData(colorScheme: Theme.of(context).colorScheme.copyWith(primary: const Color.fromRGBO(102, 103, 171, 1))),
+        theme: ThemeData(colorScheme: Theme.of(context).colorScheme.copyWith(primary: MyColors.mainBackgroundColor)),
         initialRoute: '/',
         onGenerateRoute: routeGenerator,
       ),

@@ -20,11 +20,14 @@ class ShoppingCartPage extends StatefulWidget {
 
 class ShoppingCartPageState extends State {
   List<ShoppingCartProduct> shoppingCartProductList = [];
+  bool isAllSelected = false;
+  int selectedCount = 0;
+  double totalPrice = 0;
 
   @override
   void initState() {
     super.initState();
-    //每次build时,通过本地文件查到所有购物车Item
+    //进入此页面时,从本地配置文件中获取购物车信息
     initCartList();
   }
 
@@ -32,6 +35,7 @@ class ShoppingCartPageState extends State {
   Widget build(BuildContext context) {
     //初始化屏幕适配750*1344
     ScreenAdaptor.init(context);
+    initAllState();
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -108,8 +112,13 @@ class ShoppingCartPageState extends State {
                           padding: EdgeInsets.all(ScreenAdaptor.size(5)),
                           alignment: Alignment.center,
                           child: Checkbox(
-                            onChanged: (bool? value) {},
-                            value: true,
+                            activeColor: MyColors.mainBackgroundColor,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                shoppingCartProductList[index].selected = !shoppingCartProductList[index].selected!;
+                              });
+                            },
+                            value: shoppingCartProductList[index].selected,
                           ),
                         ),
                       ),
@@ -308,8 +317,13 @@ class ShoppingCartPageState extends State {
                                 height: ScreenAdaptor.height(58),
                                 width: ScreenAdaptor.width(58),
                                 child: Checkbox(
-                                  value: false,
-                                  onChanged: (value) {},
+                                  activeColor: MyColors.mainBackgroundColor,
+                                  value: isAllSelected,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectAll(value!);
+                                    });
+                                  },
                                 ),
                               ),
                               Text(
@@ -328,7 +342,7 @@ class ShoppingCartPageState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "已选2件,",
+                                "已选${selectedCount}件,",
                                 style: TextStyle(fontSize: ScreenAdaptor.size(25), color: Colors.black38),
                               ),
                               Text(
@@ -336,7 +350,7 @@ class ShoppingCartPageState extends State {
                                 style: TextStyle(fontSize: ScreenAdaptor.size(26), color: Colors.black54),
                               ),
                               Text(
-                                "¥1192.51",
+                                "¥${totalPrice.toStringAsFixed(2)}",
                                 style: TextStyle(fontSize: ScreenAdaptor.size(36), color: MyColors.mainBackgroundColor),
                               ),
                             ],
@@ -355,7 +369,11 @@ class ShoppingCartPageState extends State {
                               "结算",
                               style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              //将选中的item
+                              //清空购物车
+                              //ShoppingCartService.clearShoppingCart();
+                            },
                           ),
                         )),
                   ],
@@ -373,5 +391,35 @@ class ShoppingCartPageState extends State {
     });
     print("初始化购物车数据...");
     print("总数量 : " + shoppingCartProductList.length.toString());
+  }
+
+  ///初始化所有变量
+  void initAllState() {
+    bool allSelected = true;
+    int count = 0;
+    double price = 0;
+    if (shoppingCartProductList.isNotEmpty) {
+      for (ShoppingCartProduct element in shoppingCartProductList) {
+        if (!element.selected!) {
+          allSelected = false;
+        }
+        if (element.selected!) {
+          count++;
+          price += element.price! * element.quantity!;
+        }
+      }
+    }
+    isAllSelected = allSelected;
+    selectedCount = count;
+    totalPrice = price;
+  }
+
+  ///全选
+  void selectAll(bool value) {
+    if (shoppingCartProductList.isNotEmpty) {
+      for (ShoppingCartProduct element in shoppingCartProductList) {
+        element.selected = value;
+      }
+    }
   }
 }

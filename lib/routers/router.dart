@@ -8,7 +8,11 @@ import '../pages/tabs/index_page.dart';
 import '../providers/product_provider.dart';
 
 //配置路由
-final Map<String, Function> routes = {'/': (context) => const IndexPage(), '/search': (context) => const SearchPage(), '/product_details': (context) => ProductPage()};
+final Map<String, Function> routes = {
+  '/': (context) => const IndexPage(),
+  '/search': (context) => const SearchPage(),
+  '/product_details': (context) => const ProductPage(),
+};
 
 //固定写法
 Route routeGenerator(RouteSettings settings) {
@@ -32,5 +36,3 @@ goToDetaislPage(BuildContext context, Product currentProduct) {
   productProvider.setCurrentProduct(currentProduct);
   Navigator.pushNamed(context, '/product_details');
 }
-
-

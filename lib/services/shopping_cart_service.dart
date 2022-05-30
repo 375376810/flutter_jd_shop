@@ -50,7 +50,7 @@ class ShoppingCartService {
       //重新写入本地配置文件
       StorageService.setString('shopping_cart_list', json.encode(shoppingCartList));
     } catch (e) {
-      print("购物车数据异常 : " + e.toString());
+      print("ShoppingCartService.addToCart()异常 : " + e.toString());
       return false;
     }
     return true;
@@ -62,7 +62,6 @@ class ShoppingCartService {
     try {
       String? val = await StorageService.getString('shopping_cart_list');
       if (val != null) {
-        print(val);
         List data = json.decode(val);
         for (var element in data) {
           ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct.fromJson(element);
@@ -70,6 +69,7 @@ class ShoppingCartService {
         }
       }
     } catch (e) {
+      print(e);
       shoppingCartList = [];
     }
     return shoppingCartList;

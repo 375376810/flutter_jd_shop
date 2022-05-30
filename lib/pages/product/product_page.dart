@@ -503,8 +503,8 @@ class _ProductPageState extends State<ProductPage> {
     }
     //生成一个购物车item
     //this.title, this.desc, this.url, this.price,
-    ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct(
-        productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url, productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
+    ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct(productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url,
+        productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
     //将购买的信息加入购物车本地存储配置文件
     bool success = await ShoppingCartService.addToCart(shoppingCartProduct);
     if (success) {
