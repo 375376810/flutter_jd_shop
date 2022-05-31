@@ -5,11 +5,9 @@ import 'package:flutterjdshop/services/storage_service.dart';
 import '../model/user.dart';
 
 class UserService {
-  static setUser(User user) {
+  static setUser(User user) {}
 
-  }
-
-  static getUser() async{
+  static Future<User?> getUser() async {
     //从本地配置文件中读取用户信息
     User? user;
     try {
@@ -26,5 +24,14 @@ class UserService {
       return null;
     }
     return null;
+  }
+
+  static Future<bool> isLogin() async {
+    bool state = false;
+    User? user = await getUser();
+    if (user != null) {
+      state = true;
+    }
+    return state;
   }
 }

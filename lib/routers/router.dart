@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/product.dart';
+import '../pages/login_page.dart';
 import '../pages/product/product_page.dart';
 import '../pages/search_page.dart';
+import '../pages/sign_up_page.dart';
 import '../pages/tabs/index_page.dart';
 import '../providers/product_provider.dart';
 
@@ -12,6 +14,8 @@ final Map<String, Function> routes = {
   '/': (context) => const IndexPage(),
   '/search': (context) => const SearchPage(),
   '/product_details': (context) => const ProductPage(),
+  '/login':(context) => const LoginPage(),
+  '/sign_up':(context) => const SignUpPage(),
 };
 
 //固定写法

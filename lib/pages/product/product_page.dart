@@ -11,7 +11,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/basic_config.dart';
+import '../../model/user.dart';
 import '../../providers/product_provider.dart';
+import '../../services/user_service.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -121,6 +123,7 @@ class _ProductPageState extends State<ProductPage> {
                                       flex: 1,
                                       child: InkWell(
                                         onTap: () {
+                                          //先判断是否已经登录
                                           showBottom(productProvider);
                                         },
                                         child: Column(
@@ -169,11 +172,19 @@ class _ProductPageState extends State<ProductPage> {
             )));
   }
 
-  void showBottom(ProductProvider productProvider) {
+  Future<void> showBottom(ProductProvider productProvider) async {
     List<ProductSpecs> specsList = [];
     List<ProductColors> colorsList = [];
     initSpecList(specsList);
     initColorsList(colorsList);
+
+    //先判断登录状态
+    if (!await UserService.isLogin()) {
+      Fluttertoast.showToast(msg: "请先登录");
+      //打开登录页面
+      Navigator.pushNamed(context, '/login');
+      return;
+    }
 
     ///每次打开底部弹出框时,都需要重新初始化选中的结果数据
     initResult();
@@ -503,8 +514,8 @@ class _ProductPageState extends State<ProductPage> {
     }
     //生成一个购物车item
     //this.title, this.desc, this.url, this.price,
-    ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct(productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url,
-        productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
+    ShoppingCartProduct shoppingCartProduct = ShoppingCartProduct(
+        productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url, productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
     //将购买的信息加入购物车本地存储配置文件
     bool success = await ShoppingCartService.addToCart(shoppingCartProduct);
     if (success) {

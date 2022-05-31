@@ -3,9 +3,10 @@ import 'package:flutterjdshop/pages/tabs/user_page.dart';
 import 'package:flutterjdshop/services/user_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'shopping_cart_page.dart';
+import '../../model/user.dart';
 import 'category_page.dart';
 import 'home_page.dart';
+import 'shopping_cart_page.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -50,21 +51,25 @@ class IndexPageState extends State<IndexPage> {
         currentIndex: currentIndex,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
-          //当进入购物车和用户中心页面时先判断登录状态
-          if (index==2||index==3) {
-            var user = UserService.getUser();
-            if (user!=null) {
-
-            }
-            Fluttertoast.showToast(msg: "请先登录");
-            return;
-          }
-          setState(() {
-            controller.jumpToPage(index);
-            currentIndex = index;
-          });
+          jump(index);
         },
       ),
     );
+  }
+
+  void jump(index) async{
+    //当进入购物车和用户中心页面时先判断登录状态
+    if (index == 2 || index == 3) {
+      if (!await UserService.isLogin()) {
+        Fluttertoast.showToast(msg: "请先登录");
+        //打开登录页面
+        Navigator.pushNamed(context, '/login');
+        return;
+      }
+    }
+    setState(() {
+      controller.jumpToPage(index);
+      currentIndex = index;
+    });
   }
 }
