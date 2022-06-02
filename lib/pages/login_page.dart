@@ -1,6 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterjdshop/model/user.dart';
+import 'package:flutterjdshop/services/my_utils.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
+import 'package:flutterjdshop/services/user_service.dart';
 import 'package:flutterjdshop/widgets/my_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../config/basic_config.dart';
+import '../config/server_interface.dart';
 
 ///登录页
 class LoginPage extends StatefulWidget {
@@ -14,6 +22,8 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   bool isChecked = true;
+  String userName = "";
+  String password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +115,9 @@ class LoginPageState extends State<LoginPage> {
                                         height: ScreenAdaptor.height(100),
                                         width: ScreenAdaptor.width(500),
                                         child: TextField(
+                                          onChanged: (value) {
+                                            userName = value;
+                                          },
                                           style: TextStyle(fontSize: ScreenAdaptor.size(28)),
                                           maxLines: 1,
                                           decoration: InputDecoration(
@@ -145,6 +158,9 @@ class LoginPageState extends State<LoginPage> {
                                         height: ScreenAdaptor.height(100),
                                         width: ScreenAdaptor.width(500),
                                         child: TextField(
+                                          onChanged: (value) {
+                                            password = value;
+                                          },
                                           style: TextStyle(fontSize: ScreenAdaptor.size(28)),
                                           maxLines: 1,
                                           obscureText: true,
@@ -185,8 +201,34 @@ class LoginPageState extends State<LoginPage> {
                                   fontSize: ScreenAdaptor.size(30),
                                 ),
                               ),
-                              onPressed: () {
-                                //TODO:登录
+                              onPressed: () async {
+                                //非空验证
+                                checkEmpty();
+                                //通过非空验证后,将密码md5加密
+                                password = MyUtils.generateMD5(password);
+                                //请求接口
+                                var response = await Dio().post(BasicConfig.basicServerUrl + ServiceInterface.login, queryParameters: {"user_name": userName, "password": password});
+                                var data = response.data["user"];
+                                if (data == null) {
+                                  Fluttertoast.showToast(
+                                    msg: "用户名或密码错误!",
+                                    backgroundColor: Colors.redAccent,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                  );
+                                  return;
+                                } else {
+                                  User user = User.fromJson(data);
+                                  //将获取到的user数据写到本地配置文件中
+                                  UserService.setUserToLocal(user);
+                                  Navigator.pop(context);
+                                  Fluttertoast.showToast(
+                                    msg: "登录成功!",
+                                    backgroundColor: Colors.black38,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                  );
+                                }
                               },
                             ),
                           ),
@@ -273,5 +315,17 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void checkEmpty() {
+    if (userName.isEmpty || password.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "用户名或密码没有填写",
+        backgroundColor: Colors.redAccent,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+      );
+      return;
+    }
   }
 }

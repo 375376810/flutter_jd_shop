@@ -3,7 +3,6 @@ import 'package:flutterjdshop/pages/tabs/user_page.dart';
 import 'package:flutterjdshop/services/user_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../model/user.dart';
 import 'category_page.dart';
 import 'home_page.dart';
 import 'shopping_cart_page.dart';

@@ -15,6 +15,14 @@ class ServiceInterface {
   static const String getHotProductItemsByPage = "get_hot_product_items_by_page";
 
   //猜你喜欢商品接口
-static const String guessYouLikeItemsInfo = "guess_you_like_items_info";
+  static const String guessYouLikeItemsInfo = "guess_you_like_items_info";
 
+  //用户注册
+  static const String saveUser = "save_user";
+
+  //登录接口
+  static const String login = "login";
+
+  //查找数据库中是否已存在同名用户
+  static const String isUserExists = "is_user_exists";
 }

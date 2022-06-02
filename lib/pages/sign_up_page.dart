@@ -1,7 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterjdshop/config/response_code.dart';
+import 'package:flutterjdshop/model/user.dart';
 import 'package:flutterjdshop/services/my_utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../config/basic_config.dart';
+import '../config/server_interface.dart';
 import '../services/screen_adaptor.dart';
 import '../widgets/my_colors.dart';
 
@@ -354,7 +359,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontSize: ScreenAdaptor.size(30),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       //校验表单
                       if (!MyUtils.isPhone(phoneNumber)) {
                         Fluttertoast.showToast(
@@ -392,7 +397,47 @@ class _SignUpPageState extends State<SignUpPage> {
                         );
                         return;
                       }
-                      //表单校验没有问题,向后台提交请求
+                      //查找服务器是否此用户名已被使用
+                      //使用md5对password加密
+
+                      User user = User(userName: phoneNumber, password: MyUtils.generateMD5(password), nickName: nickName);
+                      var response1 = await Dio().get(BasicConfig.basicServerUrl + ServiceInterface.isUserExists, queryParameters: {"user_name": user.userName});
+                      //用户名已被使用
+                      if (response1.data['is_user_exists'] == true) {
+                        Fluttertoast.showToast(
+                          msg: "此手机号已注册,请直接登录",
+                          backgroundColor: Colors.redAccent,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                        );
+                        setState(() {
+                          labelTextPhone = "该手机号已被使用";
+                        });
+                        return;
+                      }
+                      //表单校验没有问题,开始保存
+                      var response2 = await Dio().post(BasicConfig.basicServerUrl + ServiceInterface.saveUser,data: user.toJson());
+                      if (response2.data['code'] == ResponseCode.success) {
+                        //保存成功
+                        Fluttertoast.showToast(
+                          msg: "注册成功!",
+                          backgroundColor: Colors.black26,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                        );
+                        //关闭本页并跳转至登录页
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/login');
+                      } else if (response2.data['code'] == ResponseCode.error) {
+                        //保存失败
+                        Fluttertoast.showToast(
+                          msg: response2.data['msg'],
+                          backgroundColor: Colors.redAccent,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                        );
+                        return;
+                      }
                     },
                   ),
                 ),

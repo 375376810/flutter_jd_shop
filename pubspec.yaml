@@ -50,6 +50,8 @@ dependencies:
   #国际化
   flutter_localizations:
     sdk: flutter
+  #md5加密
+  crypto: ^3.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

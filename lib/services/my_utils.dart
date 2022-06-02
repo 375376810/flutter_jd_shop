@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart';
+
 class MyUtils {
   //验证手机号
   //static RegExp reg = RegExp(r"^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$");
@@ -11,5 +17,11 @@ class MyUtils {
     } else {
       return false;
     }
+  }
+
+  static String generateMD5(String data) {
+    Uint8List content = const Utf8Encoder().convert(data);
+    Digest digest = md5.convert(content);
+    return digest.toString();
   }
 }
