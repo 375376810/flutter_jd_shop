@@ -33,4 +33,8 @@ class UserService {
     }
     return state;
   }
+
+  static void deleteUserData() async{
+    StorageService.remove('user');
+  }
 }

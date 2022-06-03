@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterjdshop/model/user.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
 import 'package:flutterjdshop/services/user_service.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -133,10 +134,18 @@ class UserPageState extends State {
                       alignment: Alignment.center,
                       child: user.userName == ""
                           ? InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                setState(() {
+                                  Navigator.pushNamed(context, "/login").then((value) {
+                                    setState(() {
+                                      initUser();
+                                    });
+                                  });
+                                });
+                              },
                               child: Text(
                                 "登录",
-                                style: TextStyle(color: Colors.white, fontSize: ScreenAdaptor.size(32)),
+                                style: TextStyle(color: Colors.white, fontSize: ScreenAdaptor.size(38)),
                               ),
                             )
                           : Text(
@@ -165,10 +174,89 @@ class UserPageState extends State {
                             ],
                           ),
                           clipBehavior: Clip.hardEdge,
-                          child: Column(
-                            children: [
-
-                            ],
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text("我的积分", style: TextStyle(fontSize: ScreenAdaptor.size(32))),
+                                  leading: Icon(
+                                    Icons.card_giftcard,
+                                    size: ScreenAdaptor.size(50),
+                                  ),
+                                  trailing: Text("3529", style: TextStyle(fontSize: ScreenAdaptor.size(32))),
+                                ),
+                                Divider(
+                                  color: Colors.black38,
+                                  thickness: ScreenAdaptor.size(1),
+                                ),
+                                ListTile(
+                                  title: Text("我的订单", style: TextStyle(fontSize: ScreenAdaptor.size(32))),
+                                  leading: Icon(
+                                    Icons.library_books,
+                                    size: ScreenAdaptor.size(50),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: ScreenAdaptor.size(50),
+                                  ),
+                                  onTap: () {
+                                    Fluttertoast.showToast(msg: "我的订单");
+                                  },
+                                ),
+                                Divider(
+                                  color: Colors.black38,
+                                  thickness: ScreenAdaptor.size(1),
+                                ),
+                                ListTile(
+                                  title: Text("退出登录", style: TextStyle(fontSize: ScreenAdaptor.size(32))),
+                                  leading: Icon(Icons.power_settings_new, size: ScreenAdaptor.size(50)),
+                                  onTap: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => AlertDialog(
+                                        title: Text(
+                                          '退出',
+                                          style: TextStyle(fontSize: ScreenAdaptor.size(36)),
+                                        ),
+                                        content: Text(
+                                          "确认要退出登录吗?",
+                                          style: TextStyle(fontSize: ScreenAdaptor.size(30)),
+                                        ),
+                                        actions: [
+                                          OutlinedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                '取消',
+                                                style: TextStyle(fontSize: ScreenAdaptor.size(30)),
+                                              )),
+                                          OutlinedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  //删除本地用户数据
+                                                  UserService.deleteUserData();
+                                                  user = User(id: 1, userName: "", password: "", nickName: "", address: "", salt: "", gender: 1, age: 2, email: "");
+                                                  Fluttertoast.showToast(msg: "已退出");
+                                                  //关闭对话框
+                                                  Navigator.pop(context);
+                                                });
+                                              },
+                                              child: Text(
+                                                '确定',
+                                                style: TextStyle(fontSize: ScreenAdaptor.size(30)),
+                                              )),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                                Divider(
+                                  color: Colors.black38,
+                                  thickness: ScreenAdaptor.size(1),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                 ),
