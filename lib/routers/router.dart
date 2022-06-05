@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../model/product.dart';
 import '../pages/login_page.dart';
+import '../pages/order_list_page.dart';
 import '../pages/product/product_page.dart';
 import '../pages/search_page.dart';
 import '../pages/sign_up_page.dart';
@@ -16,6 +17,7 @@ final Map<String, Function> routes = {
   '/product_details': (context) => const ProductPage(),
   '/login':(context) => const LoginPage(),
   '/sign_up':(context) => const SignUpPage(),
+  '/order_list': (context, {arguments}) => OrderListPage(arguments: arguments),
 };
 
 //固定写法

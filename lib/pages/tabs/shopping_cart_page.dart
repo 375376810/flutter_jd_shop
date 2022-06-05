@@ -21,6 +21,7 @@ class ShoppingCartPage extends StatefulWidget {
 class ShoppingCartPageState extends State {
   List<ShoppingCartProduct> shoppingCartProductList = [];
   bool isAllSelected = false;
+  bool isAnySelected = false;
   int selectedCount = 0;
   double totalPrice = 0;
 
@@ -35,7 +36,7 @@ class ShoppingCartPageState extends State {
   Widget build(BuildContext context) {
     //初始化屏幕适配750*1344
     ScreenAdaptor.init(context);
-    initAllState();
+    initAllData();
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -370,9 +371,25 @@ class ShoppingCartPageState extends State {
                               style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.white),
                             ),
                             onPressed: () {
-                              //将选中的item
-                              //清空购物车
-                              //ShoppingCartService.clearShoppingCart();
+                              //先判断是否选择了商品
+                              if (!isAnySelected) {
+                                Fluttertoast.showToast(
+                                  msg: "您还没有选择商品",
+                                  backgroundColor: Colors.red[300],
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                );
+                                return;
+                              }
+                              //将购物车数据携带,跳转至确认订单页面(在订单页面提取出选中的item)
+                              Navigator.pushNamed(context, '/order_list', arguments: {"shoppingCartProductList": shoppingCartProductList}).then(
+                                    (value) =>
+                                    () {
+                                  setState(() {
+                                    initCartList();
+                                  });
+                                },
+                              );
                             },
                           ),
                         )),
@@ -394,8 +411,9 @@ class ShoppingCartPageState extends State {
   }
 
   ///初始化所有变量
-  void initAllState() {
+  void initAllData() {
     bool allSelected = true;
+    isAnySelected = false;
     int count = 0;
     double price = 0;
     if (shoppingCartProductList.isNotEmpty) {
@@ -404,6 +422,7 @@ class ShoppingCartPageState extends State {
           allSelected = false;
         }
         if (element.selected!) {
+          isAnySelected = true;
           count++;
           price += element.price! * element.quantity!;
         }
