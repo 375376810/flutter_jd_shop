@@ -401,7 +401,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       //使用md5对password加密
 
                       User user = User(userName: phoneNumber, password: MyUtils.generateMD5(password), nickName: nickName);
-                      var response1 = await Dio().get(BasicConfig.basicServerUrl + ServiceInterface.isUserExists, queryParameters: {"user_name": user.userName});
+                      var response1 = await Dio().get(BasicConfig.basicServerUrl + ServerInterface.isUserExists, queryParameters: {"user_name": user.userName});
                       //用户名已被使用
                       if (response1.data['is_user_exists'] == true) {
                         Fluttertoast.showToast(
@@ -416,7 +416,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         return;
                       }
                       //表单校验没有问题,开始保存
-                      var response2 = await Dio().post(BasicConfig.basicServerUrl + ServiceInterface.saveUser,data: user.toJson());
+                      var response2 = await Dio().post(BasicConfig.basicServerUrl + ServerInterface.saveUser, data: user.toJson());
                       if (response2.data['code'] == ResponseCode.success) {
                         //保存成功
                         Fluttertoast.showToast(

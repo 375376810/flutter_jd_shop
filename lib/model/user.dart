@@ -8,8 +8,9 @@ class User {
   int? gender;
   int? age;
   String? email;
+  String? address2;
 
-  User({this.id, this.userName, this.password, this.nickName, this.address, this.salt, this.gender, this.age, this.email});
+  User({this.id, this.userName, this.password, this.nickName, this.address, this.address2, this.salt, this.gender, this.age, this.email});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -17,6 +18,7 @@ class User {
     password = json['password'];
     nickName = json['nickName'];
     address = json['address'];
+    address2 = json['address2'];
     salt = json['salt'];
     gender = json['gender'];
     age = json['age'];
@@ -30,6 +32,7 @@ class User {
     data['password'] = password;
     data['nickName'] = nickName;
     data['address'] = address;
+    data['address2'] = address2;
     data['salt'] = salt;
     data['gender'] = gender;
     data['age'] = age;

@@ -1,4 +1,4 @@
-class ServiceInterface {
+class ServerInterface {
   //获取轮播图的服务器接口
   static const String swiperInfo = "swiper_info";
 
@@ -25,4 +25,7 @@ class ServiceInterface {
 
   //查找数据库中是否已存在同名用户
   static const String isUserExists = "is_user_exists";
+
+  //保存用户收获地址信息
+  static const String editAddress = "edit_address";
 }

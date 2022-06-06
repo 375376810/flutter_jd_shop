@@ -132,7 +132,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   }
 
   getGuessYouLikeItems() async {
-    String path = BasicConfig.basicServerUrl + ServiceInterface.guessYouLikeItemsInfo;
+    String path = BasicConfig.basicServerUrl + ServerInterface.guessYouLikeItemsInfo;
     var response = await Dio().get(path);
     var info = GuessYouLikeItemsInfo.fromJson(response.data);
     setState(() {
@@ -141,7 +141,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
   }
 
   getHotProductItemsCount() async {
-    String path = BasicConfig.basicServerUrl + ServiceInterface.getHotProductItemsCount;
+    String path = BasicConfig.basicServerUrl + ServerInterface.getHotProductItemsCount;
     var response = await Dio().get(path);
     var info = HotProductItemsCountInfo.fromJson(response.data);
     setState(() {
@@ -153,7 +153,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     setState(() {
       flag = false;
     });
-    String path = BasicConfig.basicServerUrl + ServiceInterface.getHotProductItemsByPage;
+    String path = BasicConfig.basicServerUrl + ServerInterface.getHotProductItemsByPage;
     var response = await Dio().get(path, queryParameters: {"page_number": pageNumber, "page_size": pageSize});
     var info = HotProductItemsInfo.fromJson(response.data);
     setState(() {
@@ -164,7 +164,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   getSwiperInfo() async {
     //请求服务器轮播图数据
-    String path = BasicConfig.basicServerUrl + ServiceInterface.swiperInfo;
+    String path = BasicConfig.basicServerUrl + ServerInterface.swiperInfo;
     var response = await Dio().get(path);
     var items = SwiperInfo.fromJson(response.data);
     setState(() {

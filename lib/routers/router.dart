@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/product.dart';
+import '../pages/edit_address_page.dart';
 import '../pages/login_page.dart';
 import '../pages/order_list_page.dart';
 import '../pages/product/product_page.dart';
@@ -18,6 +19,7 @@ final Map<String, Function> routes = {
   '/login':(context) => const LoginPage(),
   '/sign_up':(context) => const SignUpPage(),
   '/order_list': (context, {arguments}) => OrderListPage(arguments: arguments),
+  '/edit_address': (context) => const EditAddressPage(),
 };
 
 //固定写法

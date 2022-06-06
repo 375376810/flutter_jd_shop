@@ -207,7 +207,7 @@ class LoginPageState extends State<LoginPage> {
                                 //通过非空验证后,将密码md5加密
                                 password = MyUtils.generateMD5(password);
                                 //请求接口
-                                var response = await Dio().post(BasicConfig.basicServerUrl + ServiceInterface.login, queryParameters: {"user_name": userName, "password": password});
+                                var response = await Dio().post(BasicConfig.basicServerUrl + ServerInterface.login, queryParameters: {"user_name": userName, "password": password});
                                 var data = response.data["user"];
                                 if (data == null) {
                                   Fluttertoast.showToast(

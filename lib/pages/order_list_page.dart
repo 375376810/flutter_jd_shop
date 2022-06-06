@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterjdshop/model/user.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
@@ -39,7 +38,6 @@ class _OrderListPageState extends State<OrderListPage> {
         user = u;
       });
     }
-    print("用户..........${user.nickName}");
   }
 
   void initOrderList() {
@@ -182,28 +180,32 @@ class _OrderListPageState extends State<OrderListPage> {
   }
 
   Widget addressWidget() {
-    return Container(
-      height: ScreenAdaptor.height(200),
-      margin: EdgeInsets.all(ScreenAdaptor.size(10)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(ScreenAdaptor.size(16)),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12, // 阴影的颜色
-            offset: Offset(10, 10), // 阴影与容器的距离
-            blurRadius: 18.0, // 高斯的标准偏差与盒子的形状卷积。
-            spreadRadius: 0.0, // 在应用模糊之前，框应该膨胀的量。
-          ),
-        ],
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: user.address == null
-          ? InkWell(
-              onTap: () {
-                Fluttertoast.showToast(msg: "添加收货地址${user.userName}");
-              },
-              child: Container(
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/edit_address').then((value) {
+          setState(() {
+            initUser();
+          });
+        });
+      },
+      child: Container(
+        height: ScreenAdaptor.height(200),
+        margin: EdgeInsets.all(ScreenAdaptor.size(10)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(ScreenAdaptor.size(16)),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12, // 阴影的颜色
+              offset: Offset(10, 10), // 阴影与容器的距离
+              blurRadius: 18.0, // 高斯的标准偏差与盒子的形状卷积。
+              spreadRadius: 0.0, // 在应用模糊之前，框应该膨胀的量。
+            ),
+          ],
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: user.address == null || user.address2 == null
+            ? Container(
                 alignment: Alignment.center,
                 child: Wrap(
                   children: [
@@ -215,59 +217,59 @@ class _OrderListPageState extends State<OrderListPage> {
                     Text("添加收获地址", style: TextStyle(fontSize: ScreenAdaptor.size(38), color: Colors.black45)),
                   ],
                 ),
-              ),
-            )
-          : Flex(
-              direction: Axis.horizontal,
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.location_on,
-                        color: MyColors.mainBackgroundColor,
-                        size: ScreenAdaptor.size(80),
-                      ),
-                    )),
-                Expanded(
-                    flex: 4,
-                    child: Flex(
-                      direction: Axis.vertical,
-                      children: [
-                        Expanded(
-                            flex: 2,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                user.address == null ? "" : user.address!,
-                                style: TextStyle(color: Colors.black87, fontSize: ScreenAdaptor.size(30)),
+        )
+            : Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Icon(
+                    Icons.location_on,
+                    color: MyColors.mainBackgroundColor,
+                    size: ScreenAdaptor.size(80),
+                  ),
+                )),
+            Expanded(
+                flex: 4,
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    Expanded(
+                        flex: 2,
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            user.address == null || user.address2 == null ? "" : user.address! + user.address2!,
+                            style: TextStyle(color: Colors.black87, fontSize: ScreenAdaptor.size(30)),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                user.nickName!,
+                                style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
                               ),
-                            )),
-                        Expanded(
-                            flex: 1,
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    user.nickName!,
-                                    style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
-                                  ),
-                                  SizedBox(
-                                    width: ScreenAdaptor.width(10),
-                                  ),
-                                  Text(
-                                    user.userName!,
-                                    style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
-                                  ),
-                                ],
+                              SizedBox(
+                                width: ScreenAdaptor.width(10),
                               ),
-                            )),
-                      ],
-                    )),
-              ],
-            ),
+                              Text(
+                                user.userName!,
+                                style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ],
+                )),
+          ],
+        ),
+      ),
     );
   }
 
@@ -339,7 +341,16 @@ class _OrderListPageState extends State<OrderListPage> {
                           style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.white),
                         ),
                         onPressed: () {
-                          Fluttertoast.showToast(msg: "弹出消息");
+                          if (user.address == null || user.address2 == null) {
+                            Fluttertoast.showToast(
+                              msg: "请添加收货地址",
+                              backgroundColor: Colors.redAccent,
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                            );
+                            return;
+                          }
+                          //如果已经添加了收货地址,则跳转到结账页面,并向服务器提交订单
                         },
                       ),
                     )),
