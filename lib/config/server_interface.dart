@@ -28,4 +28,7 @@ class ServerInterface {
 
   //保存用户收获地址信息
   static const String editAddress = "edit_address";
+
+  //向服务器提交订单
+  static const String saveOrderList = "save_order_list";
 }

@@ -383,8 +383,7 @@ class ShoppingCartPageState extends State {
                               }
                               //将购物车数据携带,跳转至确认订单页面(在订单页面提取出选中的item)
                               Navigator.pushNamed(context, '/order_list', arguments: {"shoppingCartProductList": shoppingCartProductList}).then(
-                                    (value) =>
-                                    () {
+                                    (value) {
                                   setState(() {
                                     initCartList();
                                   });

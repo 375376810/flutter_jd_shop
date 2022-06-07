@@ -1,11 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterjdshop/model/order_list_item.dart';
 import 'package:flutterjdshop/model/user.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../config/basic_config.dart';
+import '../config/server_interface.dart';
 import '../model/shopping_cart_product.dart';
 import '../services/my_image_widget.dart';
+import '../services/shopping_cart_service.dart';
+import '../services/sign_service.dart';
 import '../services/user_service.dart';
 import '../widgets/my_colors.dart';
 
@@ -19,7 +24,8 @@ class OrderListPage extends StatefulWidget {
 }
 
 class _OrderListPageState extends State<OrderListPage> {
-  List<ShoppingCartProduct> orderList = [];
+  List<ShoppingCartProduct> selectedShoppingCartProduct = [];
+  List<ShoppingCartProduct> shoppingCartProductList = [];
   double totalPrice = 0;
   User user = User(id: 1, userName: "", password: "", nickName: "", address: "", salt: "", gender: 1, age: 2, email: "");
 
@@ -41,10 +47,10 @@ class _OrderListPageState extends State<OrderListPage> {
   }
 
   void initOrderList() {
-    List<ShoppingCartProduct> shoppingCartProductList = widget.arguments["shoppingCartProductList"];
+    shoppingCartProductList = widget.arguments["shoppingCartProductList"];
     for (ShoppingCartProduct element in shoppingCartProductList) {
       if (element.selected!) {
-        orderList.add(element);
+        selectedShoppingCartProduct.add(element);
         totalPrice += element.price! * element.quantity!;
       }
     }
@@ -53,7 +59,7 @@ class _OrderListPageState extends State<OrderListPage> {
   List<Widget> orderListWidget() {
     List<Widget> list = [];
     list.add(addressWidget());
-    for (int index = 0; index < orderList.length; index++) {
+    for (int index = 0; index < selectedShoppingCartProduct.length; index++) {
       Widget w = SizedBox(
         height: ScreenAdaptor.height(230),
         child: Container(
@@ -86,7 +92,7 @@ class _OrderListPageState extends State<OrderListPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(ScreenAdaptor.size(10)),
                       ),
-                      child: MyImageWidget(BasicConfig.basicServerUrl + orderList[index].url!),
+                      child: MyImageWidget(BasicConfig.basicServerUrl + selectedShoppingCartProduct[index].url!),
                     ),
                   ),
                 ),
@@ -103,7 +109,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              orderList[index].desc!,
+                              selectedShoppingCartProduct[index].desc!,
                               maxLines: 1,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
@@ -117,7 +123,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              orderList[index].size! + "   " + orderList[index].color!,
+                              selectedShoppingCartProduct[index].size! + "   " + selectedShoppingCartProduct[index].color!,
                               maxLines: 1,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
@@ -136,7 +142,7 @@ class _OrderListPageState extends State<OrderListPage> {
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "  ¥" + orderList[index].price!.toStringAsFixed(2),
+                                      "  ¥" + selectedShoppingCartProduct[index].price!.toStringAsFixed(2),
                                       style: TextStyle(
                                         color: MyColors.mainBackgroundColor,
                                         fontSize: ScreenAdaptor.size(35),
@@ -156,7 +162,7 @@ class _OrderListPageState extends State<OrderListPage> {
                                         color: Colors.black12,
                                       ),
                                       child: Text(
-                                        "×${orderList[index].quantity}",
+                                        "×${selectedShoppingCartProduct[index].quantity}",
                                         style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: ScreenAdaptor.size(28),
@@ -206,17 +212,17 @@ class _OrderListPageState extends State<OrderListPage> {
         clipBehavior: Clip.hardEdge,
         child: user.address == null || user.address2 == null
             ? Container(
-                alignment: Alignment.center,
-                child: Wrap(
-                  children: [
-                    Icon(
-                      Icons.add_location,
-                      color: MyColors.mainBackgroundColor,
-                      size: ScreenAdaptor.size(50),
-                    ),
-                    Text("添加收获地址", style: TextStyle(fontSize: ScreenAdaptor.size(38), color: Colors.black45)),
-                  ],
-                ),
+          alignment: Alignment.center,
+          child: Wrap(
+            children: [
+              Icon(
+                Icons.add_location,
+                color: MyColors.mainBackgroundColor,
+                size: ScreenAdaptor.size(50),
+              ),
+              Text("添加收获地址", style: TextStyle(fontSize: ScreenAdaptor.size(38), color: Colors.black45)),
+            ],
+          ),
         )
             : Flex(
           direction: Axis.horizontal,
@@ -304,7 +310,7 @@ class _OrderListPageState extends State<OrderListPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "共${orderList.length}件",
+                            "共${selectedShoppingCartProduct.length}件",
                             style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
                           ),
                           SizedBox(
@@ -340,7 +346,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           "提交订单",
                           style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.white),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (user.address == null || user.address2 == null) {
                             Fluttertoast.showToast(
                               msg: "请添加收货地址",
@@ -350,7 +356,55 @@ class _OrderListPageState extends State<OrderListPage> {
                             );
                             return;
                           }
-                          //如果已经添加了收货地址,则跳转到结账页面,并向服务器提交订单
+                          //生成订单
+                          List<OrderListItem> orderList = [];
+                          for (ShoppingCartProduct element in selectedShoppingCartProduct) {
+                            OrderListItem item = OrderListItem(
+                                productId: 1,
+                                title: element.title,
+                                description: element.desc,
+                                price: element.price,
+                                quantity: element.quantity,
+                                color: element.color,
+                                size: element.size,
+                                url: element.url,
+                                userId: user.id,
+                                userName: user.userName,
+                                nickName: user.nickName,
+                                address: user.address! + user.address2!);
+                            orderList.add(item);
+                          }
+                          //orderList.sort();
+                          //签名并向服务器提交订单
+                          var tempJson = {"user_id": user.id, "salt": user.salt};
+                          var sign = SignService.getSign(tempJson);
+                          Response response = await Dio().post(BasicConfig.basicServerUrl + ServerInterface.saveOrderList, data: {
+                            "user_id": user.id,
+                            "orderList": orderList,
+                            "sign": sign,
+                          });
+                          //分析response
+                          Map data = response.data;
+                          if (data["code"] == 200) {
+                            //保存成功
+                            //删除购物车item
+                            for (ShoppingCartProduct element in selectedShoppingCartProduct) {
+                              shoppingCartProductList.remove(element);
+                            }
+                            ShoppingCartService.addListToCart(shoppingCartProductList);
+                            //UserService.setUserToLocal(user);
+                            Fluttertoast.showToast(msg: "保存成功");
+                            Navigator.pop(context);
+                          } else {
+                            //保存失败
+                            Fluttertoast.showToast(
+                              msg: "保存失败 : " + data["msg"],
+                              backgroundColor: Colors.red[300],
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                            );
+                            return;
+                          }
                         },
                       ),
                     )),
