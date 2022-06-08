@@ -13,6 +13,7 @@ import '../services/shopping_cart_service.dart';
 import '../services/sign_service.dart';
 import '../services/user_service.dart';
 import '../widgets/my_colors.dart';
+import 'package:tobias/tobias.dart' as tobias;
 
 class OrderListPage extends StatefulWidget {
   final Map arguments;
@@ -393,12 +394,14 @@ class _OrderListPageState extends State<OrderListPage> {
                             }
                             ShoppingCartService.addListToCart(shoppingCartProductList);
                             //UserService.setUserToLocal(user);
-                            Fluttertoast.showToast(msg: "保存成功");
+                            Fluttertoast.showToast(msg: "订单提交成功");
                             Navigator.pop(context);
+                            //打开支付页面
+                            toAlipay();
                           } else {
                             //保存失败
                             Fluttertoast.showToast(
-                              msg: "保存失败 : " + data["msg"],
+                              msg: "订单提交失败 : " + data["msg"],
                               backgroundColor: Colors.red[300],
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.CENTER,
@@ -412,5 +415,31 @@ class _OrderListPageState extends State<OrderListPage> {
             ),
           ),
         ));
+  }
+
+  void toAlipay() async {
+    //检测是否安装支付宝
+    var result = await tobias.isAliPayInstalled();
+    if (!result) {
+      Fluttertoast.showToast(
+        msg: "请先安装支付宝!",
+        backgroundColor: Colors.redAccent,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+      );
+      return;
+    }
+    if (result) {
+      //去支付
+      //orderInfo为后台返回的orderInfo
+      var payResult = await tobias.aliPay("null");
+      if (payResult['result'] != null) {
+        if (payResult['resultStatus'] == 9000) {
+          Fluttertoast.showToast(msg: "支付宝支付成功");
+        } else {
+          Fluttertoast.showToast(msg: "支付宝支付失败");
+        }
+      }
+    }
   }
 }

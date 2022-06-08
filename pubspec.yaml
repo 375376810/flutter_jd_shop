@@ -54,6 +54,10 @@ dependencies:
   crypto: ^3.0.2
   #省市区选择器
   city_pickers: ^1.0.1
+  #支付宝支付插件
+  tobias: ^2.4.0+2
+  #webview
+  webview_flutter: ^3.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
