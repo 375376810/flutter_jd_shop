@@ -7,8 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 ///搜索页
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, this.cookieManager}) : super(key: key);
-  final CookieManager? cookieManager;
+  //const SearchPage({Key? key, this.cookieManager}) : super(key: key);
+  //final CookieManager? cookieManager;
 
   @override
   State<SearchPage> createState() {
@@ -23,7 +23,7 @@ class SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
+      //WebView.platform = SurfaceAndroidWebView();
     }
   }
 
@@ -37,7 +37,7 @@ class SearchPageState extends State<SearchPage> {
         width: double.infinity,
         height: double.infinity,
         color: Colors.red,
-        child: WebView(
+        /*child: WebView(
           initialUrl: 'https://www.baidu.com',
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
@@ -71,12 +71,12 @@ class SearchPageState extends State<SearchPage> {
           },
           gestureNavigationEnabled: true,
           backgroundColor: Colors.white,
-        ),
+        ),*/
       ),
     );
   }
 
-  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+ /* JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
@@ -84,6 +84,5 @@ class SearchPageState extends State<SearchPage> {
             SnackBar(content: Text(message.message)),
           );
         });
-  }
-
+  }*/
 }

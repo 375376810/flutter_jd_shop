@@ -419,7 +419,7 @@ class _OrderListPageState extends State<OrderListPage> {
 
   void toAlipay() async {
     //检测是否安装支付宝
-    var result = await tobias.isAliPayInstalled();
+    /*var result = await tobias.isAliPayInstalled();
     if (!result) {
       Fluttertoast.showToast(
         msg: "请先安装支付宝!",
@@ -440,6 +440,6 @@ class _OrderListPageState extends State<OrderListPage> {
           Fluttertoast.showToast(msg: "支付宝支付失败");
         }
       }
-    }
+    }*/
   }
 }

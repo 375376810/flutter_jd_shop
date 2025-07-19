@@ -14,10 +14,10 @@ import '../providers/product_provider.dart';
 //配置路由
 final Map<String, Function> routes = {
   '/': (context) => const IndexPage(),
-  '/search': (context) => const SearchPage(),
+  '/search': (context) => SearchPage(),
   '/product_details': (context) => const ProductPage(),
-  '/login':(context) => const LoginPage(),
-  '/sign_up':(context) => const SignUpPage(),
+  '/login': (context) => const LoginPage(),
+  '/sign_up': (context) => const SignUpPage(),
   '/order_list': (context, {arguments}) => OrderListPage(arguments: arguments),
   '/edit_address': (context) => const EditAddressPage(),
 };

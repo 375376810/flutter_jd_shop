@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -40,7 +40,7 @@ dependencies:
   #flutter_screenutil屏幕适配插件
   flutter_screenutil: ^5.5.3
   #http请求库
-  dio: ^4.0.6
+  dio: ^5.8.0+1
   #状态管理
   provider: ^6.0.0
   #toast
@@ -55,9 +55,9 @@ dependencies:
   #省市区选择器
   city_pickers: ^1.0.1
   #支付宝支付插件
-  tobias: ^2.4.0+2
+  tobias: ^5.1.2
   #webview
-  webview_flutter: ^3.0.4
+  webview_flutter: ^4.13.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -67,7 +67,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
