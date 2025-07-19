@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
 class SignService {
-  static getSign(json) {
+  static String getSign(json) {
     List attrKeys = json.keys.toList();
     attrKeys.sort(); //排序  ASCII 字符顺序进行升序排列
     String str = '';

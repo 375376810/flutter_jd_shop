@@ -131,7 +131,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
               ));
   }
 
-  getGuessYouLikeItems() async {
+  Future<void> getGuessYouLikeItems() async {
     String path = BasicConfig.basicServerUrl + ServerInterface.guessYouLikeItemsInfo;
     var response = await Dio().get(path);
     var info = GuessYouLikeItemsInfo.fromJson(response.data);
@@ -140,7 +140,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     });
   }
 
-  getHotProductItemsCount() async {
+  Future<void> getHotProductItemsCount() async {
     String path = BasicConfig.basicServerUrl + ServerInterface.getHotProductItemsCount;
     var response = await Dio().get(path);
     var info = HotProductItemsCountInfo.fromJson(response.data);
@@ -149,7 +149,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     });
   }
 
-  getHotProductItemsByPage() async {
+  Future<void> getHotProductItemsByPage() async {
     setState(() {
       flag = false;
     });
@@ -162,7 +162,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     });
   }
 
-  getSwiperInfo() async {
+  Future<void> getSwiperInfo() async {
     //请求服务器轮播图数据
     String path = BasicConfig.basicServerUrl + ServerInterface.swiperInfo;
     var response = await Dio().get(path);

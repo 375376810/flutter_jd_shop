@@ -50,7 +50,7 @@ class ShoppingCartService {
       //重新写入本地配置文件
       StorageService.setString('shopping_cart_list', json.encode(shoppingCartList));
     } catch (e) {
-      print("ShoppingCartService.addToCart()异常 : " + e.toString());
+      print("ShoppingCartService.addToCart()异常 : $e");
       return false;
     }
     return true;

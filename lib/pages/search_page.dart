@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 ///搜索页
 class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
+
   //const SearchPage({Key? key, this.cookieManager}) : super(key: key);
   //final CookieManager? cookieManager;
 

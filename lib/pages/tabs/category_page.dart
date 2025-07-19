@@ -33,7 +33,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
     getLeftListData();
   }
 
-  getLeftListData() async {
+  Future<void> getLeftListData() async {
     //初始化左右区域2个列表数据
     var response = await Dio().get(BasicConfig.basicServerUrl + ServerInterface.categoryListInfo);
     CategoryListInfo info = CategoryListInfo.fromJson(response.data);
@@ -47,8 +47,8 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
   }
 
   ///获取右侧数据
-  getRightItemsData(int? categoryListId) async {
-    var response = await Dio().get(BasicConfig.basicServerUrl + ServerInterface.categoryItemsInfo + "?category_list_id=${categoryListId}");
+  Future<void> getRightItemsData(int? categoryListId) async {
+    var response = await Dio().get("${BasicConfig.basicServerUrl}${ServerInterface.categoryItemsInfo}?category_list_id=$categoryListId");
     CategoryItemsInfo info = CategoryItemsInfo.fromJson(response.data);
     setState(() {
       rightList = info.categoryItems!;

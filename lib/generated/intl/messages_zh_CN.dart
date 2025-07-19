@@ -20,7 +20,7 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function> {
     "product_page_ceshi" : MessageLookupByLibrary.simpleMessage("测试"),
     "product_page_chuxiancuowuqingchongshi" : MessageLookupByLibrary.simpleMessage("出现错误,请重试"),
     "product_page_jiarugouwuchechenggong" : MessageLookupByLibrary.simpleMessage("加入购物车成功"),

@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../services/my_image_widget.dart';
 import '../../config/basic_config.dart';
-import '../../services/screen_adaptor.dart';
 import '../../widgets/my_colors.dart';
 
 class ProductRatingsWidget extends StatefulWidget {
@@ -123,22 +122,22 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                     Container(
                       margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                       width: ScreenAdaptor.width(180),
-                      child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery01.jpg"),
+                      child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery01.jpg"),
                     ),
                     Container(
                       margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                       width: ScreenAdaptor.width(180),
-                      child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery02.jpg"),
+                      child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery02.jpg"),
                     ),
                     Container(
                       margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                       width: ScreenAdaptor.width(180),
-                      child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery03.jpg"),
+                      child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery03.jpg"),
                     ),
                     Container(
                       margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                       width: ScreenAdaptor.width(180),
-                      child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery04.jpg"),
+                      child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery04.jpg"),
                     ),
                   ],
                 ),
@@ -261,12 +260,12 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                             Container(
                               margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                               width: ScreenAdaptor.width(180),
-                              child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery01.jpg"),
+                              child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery01.jpg"),
                             ),
                             Container(
                               margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                               width: ScreenAdaptor.width(180),
-                              child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery02.jpg"),
+                              child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery02.jpg"),
                             ),
                           ],
                         ),
@@ -305,7 +304,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                   flex: 7,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: ScreenAdaptor.height(60),
                         child: Flex(
                           direction: Axis.horizontal,
@@ -401,7 +400,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                             Container(
                               margin: EdgeInsets.all(ScreenAdaptor.width(5)),
                               width: ScreenAdaptor.width(180),
-                              child: MyImageWidget(BasicConfig.basicServerUrl + "images/buyer_gallery/buyer_gallery03.jpg"),
+                              child: MyImageWidget("${BasicConfig.basicServerUrl}images/buyer_gallery/buyer_gallery03.jpg"),
                             ),
                           ],
                         ),

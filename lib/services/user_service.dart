@@ -5,7 +5,7 @@ import 'package:flutterjdshop/services/storage_service.dart';
 import '../model/user.dart';
 
 class UserService {
-  static setUserToLocal(User user) async {
+  static Future<void> setUserToLocal(User user) async {
     StorageService.setString("user", json.encode(user));
   }
 

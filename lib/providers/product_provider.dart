@@ -4,7 +4,7 @@ import 'package:flutterjdshop/model/product.dart';
 class ProductProvider extends ChangeNotifier {
   Product? currentProduct ;
 
-  setCurrentProduct(Product product) {
+  void setCurrentProduct(Product product) {
     currentProduct = product;
     notifyListeners();
   }

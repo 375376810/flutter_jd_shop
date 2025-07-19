@@ -1,5 +1,4 @@
 import 'package:city_pickers/city_pickers.dart';
-import 'package:city_pickers/modal/result.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterjdshop/config/basic_config.dart';

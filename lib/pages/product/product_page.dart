@@ -11,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/basic_config.dart';
-import '../../model/user.dart';
 import '../../providers/product_provider.dart';
 import '../../services/user_service.dart';
 
@@ -219,7 +218,7 @@ class _ProductPageState extends State<ProductPage> {
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.fromLTRB(ScreenAdaptor.width(15), ScreenAdaptor.height(15), 0, 0),
                               child: Text(
-                                "¥" + productProvider.currentProduct!.price!.toStringAsFixed(2),
+                                "¥${productProvider.currentProduct!.price!.toStringAsFixed(2)}",
                                 style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(32)),
                               ),
                             ),
@@ -256,8 +255,8 @@ class _ProductPageState extends State<ProductPage> {
                         children: [
                           Container(
                             height: ScreenAdaptor.height(80),
-                            child: const Text("尺码"),
                             alignment: Alignment.centerLeft,
+                            child: const Text("尺码"),
                           ),
                           Wrap(
                             direction: Axis.horizontal,
@@ -267,8 +266,8 @@ class _ProductPageState extends State<ProductPage> {
                           const Divider(),
                           Container(
                             height: ScreenAdaptor.height(80),
-                            child: const Text("颜色"),
                             alignment: Alignment.centerLeft,
+                            child: const Text("颜色"),
                           ),
                           Wrap(
                             direction: Axis.horizontal,
@@ -498,7 +497,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void addToCart(ProductProvider productProvider) async {
-    print("result : selectedSize " + selectedSize + " selectedColor" + selectedColor + " quantity" + quantity.toString());
+    print("result : selectedSize $selectedSize selectedColor$selectedColor quantity$quantity");
     //非空判断
     if (selectedSize.isEmpty) {
       Fluttertoast.showToast(msg: "请选择尺码...");

@@ -39,7 +39,7 @@ Route routeGenerator(RouteSettings settings) {
 }
 
 ///点击后进入详情页
-goToDetaislPage(BuildContext context, Product currentProduct) {
+void goToDetaislPage(BuildContext context, Product currentProduct) {
   ProductProvider productProvider = Provider.of<ProductProvider>(context, listen: false);
   productProvider.setCurrentProduct(currentProduct);
   Navigator.pushNamed(context, '/product_details');

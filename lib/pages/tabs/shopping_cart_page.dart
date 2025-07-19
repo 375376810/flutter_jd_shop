@@ -166,7 +166,7 @@ class ShoppingCartPageState extends State {
                                   child: Container(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      shoppingCartProductList[index].size! + "   " + shoppingCartProductList[index].color!,
+                                      "${shoppingCartProductList[index].size!}   ${shoppingCartProductList[index].color!}",
                                       maxLines: 1,
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
@@ -185,7 +185,7 @@ class ShoppingCartPageState extends State {
                                           child: Container(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              "  ¥" + shoppingCartProductList[index].price!.toStringAsFixed(2),
+                                              "  ¥${shoppingCartProductList[index].price!.toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 color: MyColors.mainBackgroundColor,
                                                 fontSize: ScreenAdaptor.size(35),
@@ -343,7 +343,7 @@ class ShoppingCartPageState extends State {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "已选${selectedCount}件,",
+                                "已选$selectedCount件,",
                                 style: TextStyle(fontSize: ScreenAdaptor.size(25), color: Colors.black38),
                               ),
                               Text(
@@ -406,7 +406,7 @@ class ShoppingCartPageState extends State {
       shoppingCartProductList = list;
     });
     print("初始化购物车数据...");
-    print("总数量 : " + shoppingCartProductList.length.toString());
+    print("总数量 : ${shoppingCartProductList.length}");
   }
 
   ///初始化所有变量

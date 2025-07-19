@@ -149,7 +149,7 @@ class UserPageState extends State {
                               ),
                             )
                           : Text(
-                              user.nickName! + "(${user.userName})",
+                              "${user.nickName!}(${user.userName})",
                               style: TextStyle(color: Colors.white, fontSize: ScreenAdaptor.size(32)),
                             ),
                     )),

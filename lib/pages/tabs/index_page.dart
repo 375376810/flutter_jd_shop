@@ -32,13 +32,13 @@ class IndexPageState extends State<IndexPage> {
     return Scaffold(
       body: PageView(
         controller: controller,
-        children: pageList,
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() {
             currentIndex = index;
           });
         },
+        children: pageList,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [

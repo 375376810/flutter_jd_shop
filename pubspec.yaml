@@ -58,6 +58,7 @@ dependencies:
   tobias: ^5.1.2
   #webview
   webview_flutter: ^4.13.0
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -13,7 +13,6 @@ import '../services/shopping_cart_service.dart';
 import '../services/sign_service.dart';
 import '../services/user_service.dart';
 import '../widgets/my_colors.dart';
-import 'package:tobias/tobias.dart' as tobias;
 
 class OrderListPage extends StatefulWidget {
   final Map arguments;
@@ -124,7 +123,7 @@ class _OrderListPageState extends State<OrderListPage> {
                           child: Container(
                             alignment: Alignment.centerRight,
                             child: Text(
-                              selectedShoppingCartProduct[index].size! + "   " + selectedShoppingCartProduct[index].color!,
+                              "${selectedShoppingCartProduct[index].size!}   ${selectedShoppingCartProduct[index].color!}",
                               maxLines: 1,
                               overflow: TextOverflow.clip,
                               style: TextStyle(
@@ -143,7 +142,7 @@ class _OrderListPageState extends State<OrderListPage> {
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "  ¥" + selectedShoppingCartProduct[index].price!.toStringAsFixed(2),
+                                      "  ¥${selectedShoppingCartProduct[index].price!.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: MyColors.mainBackgroundColor,
                                         fontSize: ScreenAdaptor.size(35),
