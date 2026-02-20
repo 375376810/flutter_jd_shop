@@ -1,0 +1,13 @@
+# ARB 文案文件的存放目录（推荐放在根目录的 l10n 文件夹）
+arb-dir: lib/l10n
+# 生成的 Dart 代码的输出目录
+output-dir: lib/generated/l10n
+# 生成的翻译类名称（后续代码中会用到）
+template-arb-file: intl_en.arb # 基准文案文件（通常用英文）
+output-localization-file: app_localizations.dart # 生成的核心类文件名
+# 支持的地区（根据需要添加）
+supported-locales:
+  - en_US # 美式英语
+  - zh_CN # 简体中文
+# 开启命名空间（避免冲突）
+use-namespace: false

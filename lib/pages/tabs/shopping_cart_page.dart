@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterjdshop/generated/l10n.dart';
 import 'package:flutterjdshop/services/my_image_widget.dart';
 import 'package:flutterjdshop/services/screen_adaptor.dart';
 import 'package:flutterjdshop/services/shopping_cart_service.dart';
@@ -7,6 +6,7 @@ import 'package:flutterjdshop/widgets/my_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../config/basic_config.dart';
+import '../../generated/l10n/app_localizations.dart';
 import '../../model/shopping_cart_product.dart';
 
 class ShoppingCartPage extends StatefulWidget {
@@ -44,7 +44,7 @@ class ShoppingCartPageState extends State {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              S.current.shopping_cart_page_gouwuche,
+              AppLocalizations.of(context)!.shopping_cart_page_gouwuche,
               style: TextStyle(fontSize: ScreenAdaptor.size(41), color: Colors.white),
             ),
             Text(

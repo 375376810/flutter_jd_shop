@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterjdshop/generated/l10n.dart';
 import 'package:flutterjdshop/model/shopping_cart_product.dart';
 import 'package:flutterjdshop/pages/product/product_details_widget.dart';
 import 'package:flutterjdshop/pages/product/product_ratings_widget.dart';
@@ -11,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/basic_config.dart';
+import '../../generated/l10n/app_localizations.dart';
 import '../../providers/product_provider.dart';
 import '../../services/user_service.dart';
 
@@ -520,7 +520,7 @@ class _ProductPageState extends State<ProductPage> {
     if (success) {
       Fluttertoast.showToast(
         //加入购物车成功
-        msg: S.current.product_page_jiarugouwuchechenggong,
+        msg: AppLocalizations.of(context)!.product_page_jiarugouwuchechenggong,
         backgroundColor: Colors.black38,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
@@ -530,7 +530,7 @@ class _ProductPageState extends State<ProductPage> {
     } else {
       Fluttertoast.showToast(
         //出现错误,请重试
-        msg: S.current.product_page_chuxiancuowuqingchongshi,
+        msg: AppLocalizations.of(context)!.product_page_chuxiancuowuqingchongshi,
         backgroundColor: Colors.black38,
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
