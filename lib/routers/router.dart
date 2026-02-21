@@ -25,14 +25,14 @@ final Map<String, Function> routes = {
 //固定写法
 Route routeGenerator(RouteSettings settings) {
   final String? name = settings.name;
-  final Function? pageBuilder = routes[name];
-  if (pageBuilder != null) {
+  final Function? page = routes[name];
+  if (page != null) {
     if (settings.arguments != null) {
       // 如果透传了参数
-      return MaterialPageRoute(builder: (context) => pageBuilder(context, arguments: settings.arguments));
+      return MaterialPageRoute(builder: (context) => page(context, arguments: settings.arguments));
     } else {
       // 没有透传参数
-      return MaterialPageRoute(builder: (context) => pageBuilder(context));
+      return MaterialPageRoute(builder: (context) => page(context));
     }
   }
   return MaterialPageRoute(builder: (context) => const IndexPage());

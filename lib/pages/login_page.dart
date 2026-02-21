@@ -69,7 +69,7 @@ class LoginPageState extends State<LoginPage> {
                         color: MyColors.mainBackgroundColor,
                         alignment: Alignment.center,
                         width: ScreenAdaptor.width(218),
-                        height: ScreenAdaptor.height(223),
+                        height: ScreenAdaptor.height(180),
                         child: Text(
                           "LOGO",
                           style: TextStyle(

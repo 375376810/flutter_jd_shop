@@ -59,6 +59,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     //初始化屏幕适配750*1344
     ScreenAdaptor.init(context);
     return Scaffold(

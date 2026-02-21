@@ -33,7 +33,7 @@ class IndexPageState extends State<IndexPage> {
       body: PageView(
         controller: controller,
         physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
+        onPageChanged: (int index) {
           setState(() {
             currentIndex = index;
           });
@@ -49,14 +49,14 @@ class IndexPageState extends State<IndexPage> {
         ],
         currentIndex: currentIndex,
         type: BottomNavigationBarType.fixed,
-        onTap: (index) {
+        onTap: (int index) {
           jump(index);
         },
       ),
     );
   }
 
-  void jump(index) async{
+  void jump(int index) async {
     //当进入购物车和用户中心页面时先判断登录状态
     if (index == 2 || index == 3) {
       if (!await UserService.isLogin()) {
