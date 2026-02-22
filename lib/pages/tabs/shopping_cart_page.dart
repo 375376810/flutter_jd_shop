@@ -45,25 +45,25 @@ class ShoppingCartPageState extends State {
           children: [
             Text(
               AppLocalizations.of(context)!.shopping_cart_page_gouwuche,
-              style: TextStyle(fontSize: ScreenAdaptor.size(41), color: Colors.white),
+              style: TextStyle(fontSize: ScreenAdaptor.size(41), color: Colors.black),
             ),
             Text(
               "(${shoppingCartProductList.length})",
-              style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.white70),
+              style: TextStyle(fontSize: ScreenAdaptor.size(29), color: Colors.black),
             ),
             SizedBox(
               width: ScreenAdaptor.width(58),
             ),
             Text(
               "降价",
-              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.white54),
+              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.black),
             ),
             SizedBox(
               width: ScreenAdaptor.width(58),
             ),
             Text(
               "常购",
-              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.white54),
+              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.black),
             ),
           ],
         ),
@@ -73,7 +73,7 @@ class ShoppingCartPageState extends State {
             alignment: Alignment.center,
             child: Text(
               "更多",
-              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.white54),
+              style: TextStyle(fontSize: ScreenAdaptor.size(31), color: Colors.black),
             ),
           ),
         ],
@@ -383,7 +383,7 @@ class ShoppingCartPageState extends State {
                               }
                               //将购物车数据携带,跳转至确认订单页面(在订单页面提取出选中的item)
                               Navigator.pushNamed(context, '/order_list', arguments: {"shoppingCartProductList": shoppingCartProductList}).then(
-                                    (value) {
+                                (value) {
                                   setState(() {
                                     initCartList();
                                   });
@@ -405,8 +405,8 @@ class ShoppingCartPageState extends State {
     setState(() {
       shoppingCartProductList = list;
     });
-    print("初始化购物车数据...");
-    print("总数量 : ${shoppingCartProductList.length}");
+    //print("初始化购物车数据...");
+    //print("总数量 : ${shoppingCartProductList.length}");
   }
 
   ///初始化所有变量

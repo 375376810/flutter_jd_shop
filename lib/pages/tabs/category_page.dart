@@ -98,7 +98,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
       return Container(
         color: Colors.white,
         child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 1 / 1.5, crossAxisCount: 3),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(childAspectRatio: 1 / 1.6, crossAxisCount: 3),
             itemCount: rightList.length,
             itemBuilder: (context, index) {
               return Container(
@@ -112,7 +112,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
                       AspectRatio(aspectRatio: 1 / 1, child: MyImageWidget(BasicConfig.basicServerUrl + rightList[index].url!)),
                       Container(
                           margin: const EdgeInsets.all(1),
-                          height: ScreenAdaptor.height(60),
+                          height: ScreenAdaptor.height(90),
                           child: Text(
                             rightList[index].desc!,
                             textAlign: TextAlign.left,
@@ -123,7 +123,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
                           )),
                       Container(
                           margin: const EdgeInsets.all(1),
-                          height: ScreenAdaptor.height(32),
+                          height: ScreenAdaptor.height(40),
                           child: Row(
                             children: [
                               const Text("¥:",
@@ -158,7 +158,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
     ScreenAdaptor.init(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
+        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.black), onPressed: null),
         title: InkWell(
             child: Container(
               height: ScreenAdaptor.height(86),
@@ -171,7 +171,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
             onTap: () {
               Navigator.pushNamed(context, "/search");
             }),
-        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
+        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.black))],
       ),
       body: Flex(
         direction: Axis.horizontal,

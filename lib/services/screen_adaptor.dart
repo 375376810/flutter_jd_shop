@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ScreenAdaptor {
   ///初始化
   static void init(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(750, 1344));
+    ScreenUtil.init(context, designSize: const Size(1080, 2400));
   }
 
   ///设置高度
