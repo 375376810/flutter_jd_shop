@@ -15,10 +15,10 @@ class EditAddressPage extends StatefulWidget {
   const EditAddressPage({Key? key}) : super(key: key);
 
   @override
-  _EditAddressPageState createState() => _EditAddressPageState();
+  EditAddressPageState createState() => EditAddressPageState();
 }
 
-class _EditAddressPageState extends State<EditAddressPage> {
+class EditAddressPageState extends State<EditAddressPage> {
   User user = User(id: 1, userName: "", password: "", nickName: "", address: "", salt: "", gender: 1, age: 2, email: "");
 
   @override

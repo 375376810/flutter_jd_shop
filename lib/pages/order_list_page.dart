@@ -20,10 +20,10 @@ class OrderListPage extends StatefulWidget {
   const OrderListPage({Key? key, required this.arguments}) : super(key: key);
 
   @override
-  _OrderListPageState createState() => _OrderListPageState();
+  OrderListPageState createState() => OrderListPageState();
 }
 
-class _OrderListPageState extends State<OrderListPage> {
+class OrderListPageState extends State<OrderListPage> {
   List<ShoppingCartProduct> selectedShoppingCartProduct = [];
   List<ShoppingCartProduct> shoppingCartProductList = [];
   double totalPrice = 0;
@@ -212,69 +212,69 @@ class _OrderListPageState extends State<OrderListPage> {
         clipBehavior: Clip.hardEdge,
         child: user.address == null || user.address2 == null
             ? Container(
-          alignment: Alignment.center,
-          child: Wrap(
-            children: [
-              Icon(
-                Icons.add_location,
-                color: MyColors.mainBackgroundColor,
-                size: ScreenAdaptor.size(50),
-              ),
-              Text("添加收获地址", style: TextStyle(fontSize: ScreenAdaptor.size(38), color: Colors.black45)),
-            ],
-          ),
-        )
-            : Flex(
-          direction: Axis.horizontal,
-          children: [
-            Expanded(
-                flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.location_on,
-                    color: MyColors.mainBackgroundColor,
-                    size: ScreenAdaptor.size(80),
-                  ),
-                )),
-            Expanded(
-                flex: 4,
-                child: Flex(
-                  direction: Axis.vertical,
+                alignment: Alignment.center,
+                child: Wrap(
                   children: [
-                    Expanded(
-                        flex: 2,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            user.address == null || user.address2 == null ? "" : user.address! + user.address2!,
-                            style: TextStyle(color: Colors.black87, fontSize: ScreenAdaptor.size(30)),
-                          ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Container(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Text(
-                                user.nickName!,
-                                style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
-                              ),
-                              SizedBox(
-                                width: ScreenAdaptor.width(10),
-                              ),
-                              Text(
-                                user.userName!,
-                                style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
-                              ),
-                            ],
-                          ),
-                        )),
+                    Icon(
+                      Icons.add_location,
+                      color: MyColors.mainBackgroundColor,
+                      size: ScreenAdaptor.size(50),
+                    ),
+                    Text("添加收获地址", style: TextStyle(fontSize: ScreenAdaptor.size(38), color: Colors.black45)),
                   ],
-                )),
-          ],
-        ),
+                ),
+              )
+            : Flex(
+                direction: Axis.horizontal,
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.location_on,
+                          color: MyColors.mainBackgroundColor,
+                          size: ScreenAdaptor.size(80),
+                        ),
+                      )),
+                  Expanded(
+                      flex: 4,
+                      child: Flex(
+                        direction: Axis.vertical,
+                        children: [
+                          Expanded(
+                              flex: 2,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  user.address == null || user.address2 == null ? "" : user.address! + user.address2!,
+                                  style: TextStyle(color: Colors.black87, fontSize: ScreenAdaptor.size(30)),
+                                ),
+                              )),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      user.nickName!,
+                                      style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
+                                    ),
+                                    SizedBox(
+                                      width: ScreenAdaptor.width(10),
+                                    ),
+                                    Text(
+                                      user.userName!,
+                                      style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ],
+                      )),
+                ],
+              ),
       ),
     );
   }
@@ -311,14 +311,14 @@ class _OrderListPageState extends State<OrderListPage> {
                         children: [
                           Text(
                             "共${selectedShoppingCartProduct.length}件",
-                            style: TextStyle(fontSize: ScreenAdaptor.size(28), color: Colors.black38),
+                            style: TextStyle(fontSize: ScreenAdaptor.size(35), color: Colors.black38),
                           ),
                           SizedBox(
                             width: ScreenAdaptor.width(10),
                           ),
                           Text(
                             "合计:",
-                            style: TextStyle(fontSize: ScreenAdaptor.size(30), color: Colors.black87),
+                            style: TextStyle(fontSize: ScreenAdaptor.size(33), color: Colors.black87),
                           ),
                           SizedBox(
                             width: ScreenAdaptor.width(10),

@@ -68,13 +68,13 @@ class LoginPageState extends State<LoginPage> {
                       child: Container(
                         color: MyColors.mainBackgroundColor,
                         alignment: Alignment.center,
-                        width: ScreenAdaptor.width(218),
-                        height: ScreenAdaptor.height(180),
+                        width: ScreenAdaptor.width(388),
+                        height: ScreenAdaptor.height(388),
                         child: Text(
                           "LOGO",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: ScreenAdaptor.size(50),
+                            fontSize: ScreenAdaptor.size(80),
                           ),
                         ),
                       ),
@@ -112,26 +112,29 @@ class LoginPageState extends State<LoginPage> {
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.all(ScreenAdaptor.width(15)),
                                         color: Colors.white,
-                                        height: ScreenAdaptor.height(100),
+                                        height: ScreenAdaptor.height(108),
                                         width: ScreenAdaptor.width(500),
                                         child: TextField(
                                           onChanged: (value) {
                                             userName = value;
                                           },
-                                          style: TextStyle(fontSize: ScreenAdaptor.size(28)),
+                                          textAlign: TextAlign.left ,
+                                          textAlignVertical: TextAlignVertical.top,
+                                          style: TextStyle(fontSize: ScreenAdaptor.size(32)),
                                           maxLines: 1,
                                           decoration: InputDecoration(
                                             border: InputBorder.none,
                                             hintText: '输入用户名(手机号码)',
-                                            hintStyle: TextStyle(color: Colors.grey, fontSize: ScreenAdaptor.size(28)),
+                                            hintStyle: TextStyle(color: Colors.grey, fontSize: ScreenAdaptor.size(32)),
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   Positioned(
+                                    left: ScreenAdaptor.width(200),
                                     bottom: 0,
-                                    width: 800,
+                                    width: ScreenAdaptor.width(600),
                                     child: Divider(color: Colors.grey, thickness: ScreenAdaptor.height(1)),
                                   ),
                                 ],
@@ -174,8 +177,9 @@ class LoginPageState extends State<LoginPage> {
                                     ],
                                   ),
                                   Positioned(
+                                    left: ScreenAdaptor.width(200),
                                     bottom: 0,
-                                    width: 800,
+                                    width: ScreenAdaptor.width(600),
                                     child: Divider(color: Colors.grey, thickness: ScreenAdaptor.height(1)),
                                   ),
                                 ],
@@ -189,7 +193,7 @@ class LoginPageState extends State<LoginPage> {
                             alignment: Alignment.center,
                             child: MaterialButton(
                               color: MyColors.mainBackgroundColor,
-                              minWidth: double.infinity,
+                              minWidth: ScreenAdaptor.width(800),
                               padding: EdgeInsets.all(ScreenAdaptor.height(25)),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(ScreenAdaptor.size(36)),

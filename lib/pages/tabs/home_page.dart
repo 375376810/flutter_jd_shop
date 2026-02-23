@@ -64,11 +64,11 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
     ScreenAdaptor.init(context);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.white), onPressed: null),
+        leading: IconButton(icon: Icon(Icons.center_focus_weak, size: ScreenAdaptor.width(50), color: Colors.black), onPressed: null),
         title: InkWell(
             child: Container(
               height: ScreenAdaptor.height(86),
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
+              decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(25)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
@@ -77,7 +77,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
             onTap: () {
               Navigator.pushNamed(context, "/search");
             }),
-        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.white))],
+        actions: [IconButton(onPressed: null, icon: Icon(Icons.apps, size: ScreenAdaptor.width(50), color: Colors.black))],
       ),
       body: ListView(controller: scrollController, children: <Widget>[
         swiperWidget(),

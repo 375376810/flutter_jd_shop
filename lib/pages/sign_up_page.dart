@@ -14,10 +14,10 @@ class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  SignUpPageState createState() => SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class SignUpPageState extends State<SignUpPage> {
   bool isChecked = false;
   String labelTextPhone = "";
   String labelTextRepassword = "";
@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: SingleChildScrollView(
         child: Container(
           height: ScreenAdaptor.getScreenHeight(),
-          padding: EdgeInsets.all(ScreenAdaptor.size(50)),
+          padding: EdgeInsets.all(ScreenAdaptor.size(60)),
           color: Colors.white,
           child: Flex(
             direction: Axis.vertical,

@@ -51,7 +51,7 @@ class UserPageState extends State {
                   child: Container(
                     alignment: Alignment.center,
                     child: Transform.scale(
-                      scale: 0.8,
+                      scale: 1.5,
                       child: Container(
                         width: ScreenAdaptor.width(530),
                         height: ScreenAdaptor.width(530),

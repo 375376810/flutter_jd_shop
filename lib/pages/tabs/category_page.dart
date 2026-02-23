@@ -155,6 +155,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     ScreenAdaptor.init(context);
     return Scaffold(
       appBar: AppBar(
@@ -162,7 +163,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
         title: InkWell(
             child: Container(
               height: ScreenAdaptor.height(86),
-              decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(25)),
+              decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(25)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [SizedBox(width: ScreenAdaptor.width(21)), const Icon(Icons.search), SizedBox(width: ScreenAdaptor.width(6)), Text("热搜", style: TextStyle(fontSize: ScreenAdaptor.size(30)))],
