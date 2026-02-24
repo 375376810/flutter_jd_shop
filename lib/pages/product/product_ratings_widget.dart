@@ -10,10 +10,10 @@ class ProductRatingsWidget extends StatefulWidget {
   const ProductRatingsWidget({Key? key}) : super(key: key);
 
   @override
-  _ProductRatingsWidgetState createState() => _ProductRatingsWidgetState();
+  ProductRatingsWidgetState createState() => ProductRatingsWidgetState();
 }
 
-class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
+class ProductRatingsWidgetState extends State<ProductRatingsWidget> {
   bool pressed1 = false;
   bool pressed2 = false;
 
@@ -85,7 +85,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
         ),
         Container(
           margin: EdgeInsets.only(left: ScreenAdaptor.width(15)),
-          height: ScreenAdaptor.height(98),
+          height: ScreenAdaptor.height(108),
           child: Wrap(
             spacing: ScreenAdaptor.width(20),
             clipBehavior: Clip.hardEdge,
@@ -147,7 +147,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
         ),
         Divider(color: Colors.grey, thickness: ScreenAdaptor.height(1)),
         SizedBox(
-            height: ScreenAdaptor.height(580),
+            height: ScreenAdaptor.height(600),
             child: Flex(
               direction: Axis.horizontal,
               children: [
@@ -178,7 +178,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "小*****花",
+                                    "小**花",
                                     style: TextStyle(fontSize: ScreenAdaptor.size(25), color: Colors.black54),
                                   ),
                                 ],
@@ -244,7 +244,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                         height: ScreenAdaptor.height(10),
                       ),
                       SizedBox(
-                        height: ScreenAdaptor.height(138),
+                        height: ScreenAdaptor.height(168),
                         child: const Text(
                           "一开始还担心会不合适,这个还真心不错,昨天四点多倒满一杯热水,现在是第二天10点,喝到嘴里还是热的,保温效果nice",
                           maxLines: 3,
@@ -285,7 +285,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
             )),
         Divider(color: Colors.grey, thickness: ScreenAdaptor.height(1)),
         SizedBox(
-            height: ScreenAdaptor.height(580),
+            height: ScreenAdaptor.height(600),
             child: Flex(
               direction: Axis.horizontal,
               children: [
@@ -316,7 +316,7 @@ class _ProductRatingsWidgetState extends State<ProductRatingsWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "张*****三",
+                                    "张**三",
                                     style: TextStyle(fontSize: ScreenAdaptor.size(25), color: Colors.black54),
                                   ),
                                 ],

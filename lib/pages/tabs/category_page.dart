@@ -65,7 +65,7 @@ class CategoryPageState extends State with AutomaticKeepAliveClientMixin {
                 InkWell(
                   child: Container(
                       width: double.infinity,
-                      height: ScreenAdaptor.height(128),
+                      height: ScreenAdaptor.height(168),
                       alignment: Alignment.center,
                       color: selectedIndex == index ? Colors.white : Colors.lightBlue[50],
                       child: Text(

@@ -18,10 +18,10 @@ class ProductPage extends StatefulWidget {
   const ProductPage({Key? key}) : super(key: key);
 
   @override
-  _ProductPageState createState() => _ProductPageState();
+  ProductPageState createState() => ProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class ProductPageState extends State<ProductPage> {
   String selectedSize = "";
   String selectedColor = "";
   int quantity = 0;
@@ -53,6 +53,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
               actions: [
                 IconButton(
+                    icon: const Icon(Icons.more_horiz),
                     onPressed: () {
                       showMenu(context: context, position: RelativeRect.fromLTRB(ScreenAdaptor.width(300), ScreenAdaptor.height(180), ScreenAdaptor.width(0), ScreenAdaptor.height(300)), items: [
                         PopupMenuItem(
@@ -66,10 +67,12 @@ class _ProductPageState extends State<ProductPage> {
                           child: Row(
                             children: const [Icon(Icons.search), Text("搜索")],
                           ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/search");
+                          },
                         )
                       ]);
-                    },
-                    icon: const Icon(Icons.more_horiz))
+                    })
               ],
             ),
             body: Stack(
@@ -79,7 +82,7 @@ class _ProductPageState extends State<ProductPage> {
                     bottom: 0,
                     child: SizedBox(
                       width: ScreenAdaptor.getScreenWidth(),
-                      height: ScreenAdaptor.height(108),
+                      height: ScreenAdaptor.height(160),
                       child: Material(
                         color: Colors.teal,
                         child: Flex(
@@ -115,7 +118,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                       )),
                                   SizedBox(
-                                    height: ScreenAdaptor.height(68),
+                                    height: ScreenAdaptor.height(98),
                                     child: const VerticalDivider(width: 1, color: Colors.black38, thickness: 1),
                                   ),
                                   Expanded(
@@ -181,27 +184,29 @@ class _ProductPageState extends State<ProductPage> {
     if (!await UserService.isLogin()) {
       Fluttertoast.showToast(msg: "请先登录");
       //打开登录页面
+      if (!mounted) return; // 如果Widget已销毁，直接返回
       Navigator.pushNamed(context, '/login');
       return;
     }
 
     ///每次打开底部弹出框时,都需要重新初始化选中的结果数据
     initResult();
+    if (!mounted) return; // 如果Widget已销毁，直接返回
     showModalBottomSheet(
       context: context,
-      isDismissible: false,
+      isDismissible: true,
       isScrollControlled: true,
-      builder: (contex) {
+      builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setBottomState) {
             return Container(
-                height: ScreenAdaptor.height(1000),
+                height: ScreenAdaptor.height(1200),
                 padding: EdgeInsets.all(ScreenAdaptor.width(20)),
                 child: Column(
                   children: [
                     ///上部
                     SizedBox(
-                      height: ScreenAdaptor.height(150),
+                      height: ScreenAdaptor.height(180),
                       child: Flex(
                         direction: Axis.horizontal,
                         children: [
@@ -216,7 +221,7 @@ class _ProductPageState extends State<ProductPage> {
                             flex: 30,
                             child: Container(
                               alignment: Alignment.topLeft,
-                              padding: EdgeInsets.fromLTRB(ScreenAdaptor.width(15), ScreenAdaptor.height(15), 0, 0),
+                              padding: EdgeInsets.fromLTRB(ScreenAdaptor.width(20), ScreenAdaptor.height(15), 0, 0),
                               child: Text(
                                 "¥${productProvider.currentProduct!.price!.toStringAsFixed(2)}",
                                 style: TextStyle(color: MyColors.mainBackgroundColor, fontSize: ScreenAdaptor.size(32)),
@@ -227,9 +232,10 @@ class _ProductPageState extends State<ProductPage> {
                             flex: 10,
                             child: Container(
                               alignment: Alignment.topRight,
+                              margin: EdgeInsets.all(ScreenAdaptor.width(20)),
                               child: SizedBox(
-                                width: ScreenAdaptor.width(50),
-                                height: ScreenAdaptor.height(50),
+                                width: ScreenAdaptor.width(68),
+                                height: ScreenAdaptor.height(68),
                                 child: IconButton(
                                   padding: const EdgeInsets.all(0.0),
                                   icon: Icon(
@@ -372,6 +378,7 @@ class _ProductPageState extends State<ProductPage> {
                         flex: 1,
                         child: Container(
                           alignment: Alignment.bottomCenter,
+                          margin: EdgeInsets.only(bottom: 10),
                           child: MaterialButton(
                             color: MyColors.mainBackgroundColor,
                             minWidth: double.infinity,
@@ -426,7 +433,7 @@ class _ProductPageState extends State<ProductPage> {
     colorsList.add(ProductColors("黑色", false, Colors.black));
   }
 
-  List<RawChip> productSizeWidget(specsList, setBottomState) {
+  List<RawChip> productSizeWidget(List<ProductSpecs> specsList, StateSetter setBottomState) {
     List<RawChip> chipList = [];
     for (ProductSpecs specs in specsList) {
       chipList.add(RawChip(
@@ -441,7 +448,7 @@ class _ProductPageState extends State<ProductPage> {
           borderRadius: BorderRadius.circular(ScreenAdaptor.size(12)),
           side: BorderSide(
             color: specs.selected ? MyColors.mainBackgroundColor : Colors.white,
-            width: ScreenAdaptor.size(2),
+            width: ScreenAdaptor.size(3),
           ),
         ),
         labelPadding: EdgeInsets.symmetric(horizontal: ScreenAdaptor.width(20)),
@@ -459,37 +466,37 @@ class _ProductPageState extends State<ProductPage> {
     return chipList;
   }
 
-  List<RawChip> productColorWidget(colorsList, setBottomState) {
+  List<RawChip> productColorWidget(List<ProductColors> colorsList, StateSetter setBottomState) {
     List<RawChip> chipList = [];
-    for (ProductColors productColors in colorsList) {
+    for (ProductColors productColor in colorsList) {
       chipList.add(RawChip(
         label: Text(
-          productColors.describe,
+          productColor.describe,
           style: TextStyle(
-            color: productColors.selected ? MyColors.mainBackgroundColor : Colors.black54,
+            color: productColor.selected ? MyColors.mainBackgroundColor : Colors.black54,
             fontSize: ScreenAdaptor.size(25),
           ),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(ScreenAdaptor.size(12)),
           side: BorderSide(
-            color: productColors.selected ? MyColors.mainBackgroundColor : Colors.white,
-            width: ScreenAdaptor.size(2),
+            color: productColor.selected ? MyColors.mainBackgroundColor : Colors.white,
+            width: ScreenAdaptor.size(3),
           ),
         ),
         labelPadding: EdgeInsets.symmetric(horizontal: ScreenAdaptor.width(20)),
         onPressed: () {
-          for (var v in colorsList) {
+          for (ProductColors v in colorsList) {
             v.selected = false;
           }
           setBottomState(() {
-            productColors.selected = true;
-            selectedColor = productColors.describe;
+            productColor.selected = true;
+            selectedColor = productColor.describe;
           });
         },
         avatar: CircleAvatar(
           radius: ScreenAdaptor.size(18),
-          backgroundColor: productColors.color,
+          backgroundColor: productColor.color,
         ),
       ));
     }
@@ -517,6 +524,7 @@ class _ProductPageState extends State<ProductPage> {
         productProvider.currentProduct!.title, productProvider.currentProduct!.desc, productProvider.currentProduct!.url, productProvider.currentProduct!.price, selectedSize, selectedColor, quantity);
     //将购买的信息加入购物车本地存储配置文件
     bool success = await ShoppingCartService.addToCart(shoppingCartProduct);
+    if (!mounted) return;
     if (success) {
       Fluttertoast.showToast(
         //加入购物车成功

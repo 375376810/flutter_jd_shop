@@ -201,7 +201,7 @@ class HomePageState extends State with AutomaticKeepAliveClientMixin {
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: ScreenAdaptor.width(10)),
       padding: EdgeInsets.only(left: ScreenAdaptor.width(10)),
-      height: ScreenAdaptor.height(32),
+      height: ScreenAdaptor.height(60),
       decoration: BoxDecoration(border: Border(left: BorderSide(color: MyColors.mainBackgroundColor, width: ScreenAdaptor.width(10)))),
       child: Text(
         title,
